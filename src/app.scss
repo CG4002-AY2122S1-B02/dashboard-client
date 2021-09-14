@@ -1,5 +1,9 @@
+@import './global.scss';
+
 .App {
-  background: grey;
+  background: $background_color;
+  color: $content_color;
   min-height: 100vh;
-  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
 }

@@ -1,0 +1,85 @@
+@import "../../global.scss";
+
+@mixin animate($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}
+
+@mixin keyframes($name){
+    @keyframes #{$name}{
+        @content;
+    }
+}
+
+@mixin stay() {
+    animation-fill-mode: forwards;
+}
+
+.dance-moves{
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    bottom: 0;
+    // overflow: hidden;
+
+    // .moving-panel-1 {
+    //     width: 100%;
+    //     height: 310px;
+    //     background: green;
+    //     transform: translateY(310px);
+    //     position: absolute;
+
+    //     @include keyframes(timestart){
+    //         0%{
+    //             transform: translateY(310px);
+    //             transition: 1s ease;
+    //         }
+    //         100%{
+    //             transform: translateY(-310px);
+    //             transition: none;
+    //         }
+    //     }
+    //     @include animate(timestart, 12s, linear, infinite);
+    // }
+
+    // .moving-panel-2 {
+    //     width: 100%;
+    //     height: 310px;
+    //     background: blue;
+    //     transform: translateY(310px);
+    //     position: absolute;
+
+    //     @include keyframes(timestart){
+    //         0%{
+    //             transform: translateY(310px);
+    //             transition: 1s ease;
+    //         }
+    //         100%{
+    //             transform: translateY(-310px);
+    //             transition: none;
+    //         }
+    //     }
+    //     @include animate(timestart, 12s, linear, infinite);
+    // }
+}
+
+.dance-container{
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    height: 300px;
+
+    // .dance{
+    //     @include keyframes(timestart){
+    //         0%{
+    //             transform: translateY(0px);
+    //             transition: 1s ease;
+    //         }
+    //         100%{
+    //             transform: translateY(-600px);
+    //             transition: none;
+    //         }
+    //     }
+    //     @include animate(timestart, 12s, linear, 1);
+    //     @include stay()
+    // }
+}

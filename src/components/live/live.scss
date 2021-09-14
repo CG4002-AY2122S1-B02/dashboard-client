@@ -1,3 +1,13 @@
+@import '../../global.scss';
+
 .live {
     
+  .user-cards{
+    margin: 0 auto;
+    max-width: 1500px;
+    width: 100%;
+    position: relative;
+    padding-bottom: calc(50vh + 20px);
+  }
+
 }

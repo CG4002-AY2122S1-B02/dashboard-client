@@ -1,0 +1,36 @@
+@import '../../global.scss';
+
+.user-card{
+    margin-top: 10px;
+    position: absolute;
+    transition: 0.5s ease;
+    width: 30%;
+
+    &.pos1{
+        left: 2%;
+    }
+
+    &.pos2{
+        left: 35%;
+    }
+
+    &.pos3{
+        left: 68%;
+    }
+
+    .card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px grey solid;
+        box-shadow: 0 4px 13px $content_color;
+        border-radius: 20px;
+        padding: 20px;
+
+        h1{
+            margin: 0;
+            font-size: $large_content_size;
+            font-weight: 400;
+        }
+    }
+}

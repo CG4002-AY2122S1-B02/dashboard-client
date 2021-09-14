@@ -14,7 +14,10 @@ const Line = (props) => {
 }
 
 function sToTime(duration) {
-    // var milliseconds = Math.floor((duration % 1000) / 100),
+    if (duration < 0) {
+        return "-"
+    }
+
     var seconds = Math.floor((duration) % 60),
         minutes = Math.floor((duration / 60) % 60),
         hours = Math.floor((duration / (60 * 60)) % 24);
@@ -25,23 +28,21 @@ function sToTime(duration) {
     return hours + minutes + seconds + "s";
 }
 
-export default function Timeline(props) {
+export default function Timeline() {
     const [currentTime, setCurrentTime] = useState(0)
-    const [count, setCount] = useState(6)
     const speed = 1
     const interval = 1
 
-    const generateList = (seconds) => {
+    const generateList = (seconds, displacement) => {
         var out = []
-        for (let i = 0; i < seconds; i += interval) {
+        for (let i = displacement; i < seconds - displacement; i += interval) {
             out.push(i)
         }
 
         return out
     }
 
-    const [timeLabel, setTimeLabel] = useState(generateList(18)) //13
-
+    const [timeLabel, setTimeLabel] = useState(generateList(18, -6)) //13
 
     useEffect(() => {
         const interval = setInterval(() => unitTime(), speed * 6000);
@@ -52,8 +53,7 @@ export default function Timeline(props) {
 
     const unitTime = () => {
         setCurrentTime(currentTime + 1)
-        const newTimeLabel = timeLabel.map((value) => value < count && value >= count - 6 ? value + 12 : value)
-        setCount((count + 6))
+        const newTimeLabel = timeLabel.map((value) => value < currentTime * 6 && value >= currentTime * 6 - 6 ? value + 12 : value)
         setTimeLabel(newTimeLabel)
     }
 

@@ -1,58 +1,40 @@
 import "./live.scss"
 import React, { useState, useEffect } from 'react';
-import { PathDanceMove, PathUser1Stream, PathUser2Stream, PathUser3Stream, PositionStream } from '../../config';
-import Timeline from "../timeline/Timeline";
+import { PathUser1Stream, PathUser2Stream, PathUser3Stream, PositionStream } from '../../config';
+import UserCard from '../usercard/UserCard';
+import Dance from "../dance/Dance";
+
+export const TimelineWindow = 50
 
 export default function Live() {
-    const [message1, setMessage1] = useState('')
-    const [message2, setMessage2] = useState('')
-    const [message3, setMessage3] = useState('')
-    const [position, setPosition] = useState('')
+    const [position, setPosition] = useState('123')
+
     useEffect(() => {
-        const socket1 = new WebSocket(PathUser1Stream + PathDanceMove)
-        const socket2 = new WebSocket(PathUser2Stream)
-        const socket3 = new WebSocket(PathUser3Stream)
         const socketPosition = new WebSocket(PositionStream)
         socketPosition.onopen = () => {
-            setPosition("Connected")
+            setPosition("123")
         }
 
         socketPosition.onmessage = (e) => {
             setPosition(e.data)
         }
-        socket1.onopen = () => {
-            setMessage1("Connected")
-        }
 
-        socket1.onmessage = (e) => {
-            setMessage1(e.data)
-        }
-
-        socket2.onopen = () => {
-            setMessage2("Connected")
-        }
-
-        socket2.onmessage = (e) => {
-            setMessage2(e.data)
-        }
-
-        socket3.onopen = () => {
-            setMessage3("Connected")
-        }
-
-        socket3.onmessage = (e) => {
-            setMessage3(e.data)
-        }
     }, [])
 
+    const splitPosition = position.split("")
 
     return (
         <div className="live">
-            <h1>Position: {position}</h1>
-            <h1>Message1: {message1}</h1>
-            <h1>Message2: {message2}</h1>
-            <h1>Message3: {message3}</h1>
-            <Timeline scale="2" />
+            <div className="user-cards">
+                <UserCard position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={PathUser1Stream} />
+                <UserCard position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={PathUser2Stream} />
+                <UserCard position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={PathUser3Stream} />
+            </div>
+
+            <div style={{ position: "relative", width: "300px", marginTop: "100px" }}>
+                <Dance name="Push Back" accuracy={100} position={0} />
+                <Dance name="James Bond" accuracy={30} position={50} />
+            </div>
         </div>
     );
 }

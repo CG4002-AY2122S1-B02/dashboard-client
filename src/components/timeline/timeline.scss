@@ -1,3 +1,5 @@
+@import '../../global.scss';
+
 // https://dev.to/inverseswirl/how-to-add-keyframes-animation-code-in-scss-46k8
 
 @mixin animate($animation,$duration,$method,$times){
@@ -10,9 +12,13 @@
     }
 }
 
+@mixin stay() {
+    animation-fill-mode: forwards;
+}
+
 .timeline{
-    width: 500px;
-    background: lightcyan;
+    width: 100%;
+    // background: lightcyan;
     overflow: hidden;
     position: relative;
 
@@ -25,7 +31,7 @@
             margin-bottom: 30px;
 
             .line-label{
-                font-size: 18px;
+                font-size: 14px;
             }
 
             .line-real{

@@ -1,0 +1,53 @@
+// https://dev.to/inverseswirl/how-to-add-keyframes-animation-code-in-scss-46k8
+
+@mixin animate($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}
+
+@mixin keyframes($name){
+    @keyframes #{$name}{
+        @content;
+    }
+}
+
+.timeline{
+    width: 500px;
+    background: lightcyan;
+    overflow: hidden;
+    position: relative;
+
+    .lines{
+        .line{
+            overflow: hidden;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+
+            .line-label{
+                font-size: 18px;
+            }
+
+            .line-real{
+                margin-left: 10px;
+                width: 500px;
+                height: 1px;
+                background: gray;
+            }
+
+            &.move{
+                @include keyframes(timestart){
+                    0%{
+                        transform: translateY(0px);
+                        transition: 1s ease;
+                    }
+                    100%{
+                        transform: translateY(-50px);
+                        transition: none;
+                    }
+                }
+                @include animate(timestart, 1s, linear, infinite);
+            }
+        }
+    }
+}

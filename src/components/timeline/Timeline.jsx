@@ -1,14 +1,90 @@
 import './timeline.scss'
 import React, { useState, useEffect } from 'react';
+import Dance from '../dance/Dance';
 
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
+const Lines = (props) => {
+    //____________________Dance Move Stream__________________________
+    const [buffer, setBuffer] = useState([])
+    const [danceMove, setDanceMove] = useState({
+        "epochMs": Date.now(), "name": "start", "accuracy": "MSG"
+    })
+
+    useEffect(() => {
+        const socket = new WebSocket(props.stream)
+        socket.onopen = () => {
+        }
+
+        socket.onmessage = (e) => {
+            const danceMove = e.data.split("|")
+            setDanceMove({
+                "epochMs": parseInt(danceMove[0]),
+                "name": danceMove[1],
+                "accuracy": danceMove[2]
+            })
+        }
+    }, [props.stream])
+
+    useEffect(() => {
+        function getBuffer(b) {
+            if (b.length >= 4) {
+                return [b[0], ...(b.slice(2)), danceMove]
+            } else {
+                return [...b, danceMove]
+            }
+        }
+
+        setBuffer(b => (
+            getBuffer(b)
+        ))
+    }, [danceMove])
+
+    useEffect(() => {
+        console.log(buffer)
+    }, [buffer])
+
+    //_______________________________________________________________
+
+
+    return (
+        <div className="lines" >
+            {props.timeLabel.map((l) => (
+                <Line label={l} buffer={buffer} />
+            ))}
+        </div>
+    )
+}
+
 const Line = (props) => {
+    const label = props.label
+    const start_time = props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()
+    var pixelsOffsetRelativeLine = null
+    var finalDanceMove = null
+    for (let i = 1; i < props.buffer.length; i++) {
+        const danceMove = props.buffer[i]
+        //check if start_time + label - x < epochMs < start_time + label + x  
+
+        // console.log(String(danceMove.epochMs) + "|" + String(start_time) + "|" + String(label * 1000))
+        if (start_time + label * 1000 - 500 < danceMove.epochMs &&
+            danceMove.epochMs < start_time + label * 1000 + 500) {
+            //if it is, find exact position and break
+            pixelsOffsetRelativeLine = (danceMove.epochMs - start_time - label * 1000) * 50 / 1000
+            finalDanceMove = danceMove
+            break
+        }
+    }
+
+
     return (
         <div className="line move" style={{ bottom: props.bottom }}>
-            <div className="line-label"> {props.label} </div>
+            <div className="line-label"> {sToTime(label)} </div>
             <div className="line-real"></div>
+            {pixelsOffsetRelativeLine != null ?
+                <Dance name={finalDanceMove.name}
+                    accuracy={finalDanceMove.accuracy} position={pixelsOffsetRelativeLine} />
+                : <span></span>}
         </div>
     )
 }
@@ -28,7 +104,7 @@ function sToTime(duration) {
     return hours + minutes + seconds + "s";
 }
 
-export default function Timeline() {
+export default function Timeline(props) {
     const [currentTime, setCurrentTime] = useState(0)
     const speed = 1
     const interval = 1
@@ -60,11 +136,7 @@ export default function Timeline() {
     return (
         <div className="timeline"
             style={{ height: 300 }}>
-            <div className="lines" >
-                {timeLabel.map((l) => (
-                    <Line label={sToTime(l)} />
-                ))}
-            </div>
+            <Lines timeLabel={timeLabel} stream={props.stream} />
         </div>
     )
 }

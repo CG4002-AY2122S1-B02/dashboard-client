@@ -2,7 +2,6 @@ import "./live.scss"
 import React, { useState, useEffect } from 'react';
 import { PathUser1Stream, PathUser2Stream, PathUser3Stream, PositionStream } from '../../config';
 import UserCard from '../usercard/UserCard';
-import Dance from "../dance/Dance";
 
 export const TimelineWindow = 50
 
@@ -29,11 +28,6 @@ export default function Live() {
                 <UserCard position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={PathUser1Stream} />
                 <UserCard position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={PathUser2Stream} />
                 <UserCard position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={PathUser3Stream} />
-            </div>
-
-            <div style={{ position: "relative", width: "300px", marginTop: "100px" }}>
-                <Dance name="Push Back" accuracy={100} position={0} />
-                <Dance name="James Bond" accuracy={30} position={50} />
             </div>
         </div>
     );

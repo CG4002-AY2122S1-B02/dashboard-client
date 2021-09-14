@@ -1,6 +1,5 @@
 import './userCard.scss'
 import Timeline from '../timeline/Timeline';
-// import DanceMoves from '../dancemoves/DanceMoves';
 
 export default function UserCard(props) {
     const { position, name, sensor_set } = props
@@ -11,8 +10,7 @@ export default function UserCard(props) {
                 <span>Position {position}</span>
                 <h1>{name}</h1>
                 <code>{"Sensor Set " + sensor_set}</code>
-                <Timeline />
-                {/* <DanceMoves stream={props.stream} /> */}
+                <Timeline stream={props.stream} />
             </div>
         </div>
     )

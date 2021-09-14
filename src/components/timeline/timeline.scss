@@ -42,11 +42,11 @@
                         transition: 1s ease;
                     }
                     100%{
-                        transform: translateY(-50px);
+                        transform: translateY(-600px);
                         transition: none;
                     }
                 }
-                @include animate(timestart, 1s, linear, infinite);
+                @include animate(timestart, 12s, linear, infinite);
             }
         }
     }

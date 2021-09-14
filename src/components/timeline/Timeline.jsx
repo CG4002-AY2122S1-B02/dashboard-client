@@ -1,5 +1,5 @@
 import './timeline.scss'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
@@ -27,29 +27,34 @@ function sToTime(duration) {
 
 export default function Timeline(props) {
     const [currentTime, setCurrentTime] = useState(0)
-    const [timeLabel, setTimeLabel] = useState([0, 1, 2, 3, 4, 5, 6])
-    const timeWindow = 10
+    const [count, setCount] = useState(6)
     const speed = 1
-    const linesRef = useRef(0)
     const interval = 1
 
+    const generateList = (seconds) => {
+        var out = []
+        for (let i = 0; i < seconds; i += interval) {
+            out.push(i)
+        }
+
+        return out
+    }
+
+    const [timeLabel, setTimeLabel] = useState(generateList(18)) //13
+
+
     useEffect(() => {
-        const interval = setInterval(() => unitTime(), speed * 1000);
+        const interval = setInterval(() => unitTime(), speed * 6000);
         return () => {
             clearInterval(interval);
         };
     });
 
     const unitTime = () => {
-        // console.log(currentTime + "-" + (currentTime + timeWindow))
-        // setCurrentTime(currentTime + 1)
-        setTimeLabel([timeLabel[0] + interval,
-        timeLabel[1] + interval,
-        timeLabel[2] + interval,
-        timeLabel[3] + interval,
-        timeLabel[4] + interval,
-        timeLabel[5] + interval,
-        timeLabel[6] + interval])
+        setCurrentTime(currentTime + 1)
+        const newTimeLabel = timeLabel.map((value) => value < count && value >= count - 6 ? value + 12 : value)
+        setCount((count + 6))
+        setTimeLabel(newTimeLabel)
     }
 
     return (

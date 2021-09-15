@@ -5,6 +5,8 @@ import UserCard from '../usercard/UserCard';
 
 export const TimelineWindow = 50
 
+const PositionChange = false
+
 const UserCards = (props) => {
     //Positon____________________________________________
     const [position, setPosition] = useState('123')
@@ -25,9 +27,9 @@ const UserCards = (props) => {
 
     return (
         <div className="user-cards">
-            <UserCard position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={PathUser1Stream} timeLabels={props.timeLabels} />
-            <UserCard position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={PathUser2Stream} timeLabels={props.timeLabels} />
-            <UserCard position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={PathUser3Stream} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={PathUser1Stream} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={PathUser2Stream} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={PathUser3Stream} timeLabels={props.timeLabels} />
         </div>
     )
 }

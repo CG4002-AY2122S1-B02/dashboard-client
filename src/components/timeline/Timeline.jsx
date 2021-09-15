@@ -5,14 +5,23 @@ import Dance from '../dance/Dance';
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
-const BUFFER_MAX_LENGTH = 5
+const BUFFER_MAX_LENGTH = 10
+const OFFSET = -7
 
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
-    const [buffer, setBuffer] = useState([])
-    const [danceMove, setDanceMove] = useState({
-        "epochMs": Date.now(), "name": "start", "accuracy": "MSG"
-    })
+    const [buffer, setBuffer] = useState([
+        { "epochMs": Date.now(), "name": "start", "accuracy": "MSG" },
+        { "epochMs": Date.now(), "name": "Push Back", "accuracy": 0 },
+        { "epochMs": Date.now() + 1000, "name": "Scarecrow", "accuracy": 0 },
+        { "epochMs": Date.now() + 2000, "name": "Dab", "accuracy": 0 },
+        { "epochMs": Date.now() + 3000, "name": "Snake", "accuracy": 0 },
+        { "epochMs": Date.now() + 4000, "name": "Window360", "accuracy": 0 },
+        { "epochMs": Date.now() + 5000, "name": "James Bond", "accuracy": 0 },
+        { "epochMs": Date.now() + 6000, "name": "Cowboy", "accuracy": 0 },
+        { "epochMs": Date.now() + 7000, "name": "Mermaid", "accuracy": 0 },
+    ])
+    const [danceMove, setDanceMove] = useState({ "epochMs": Date.now() + 3500, "name": "x", "accuracy": 0 },)
 
     useEffect(() => {
         const socket = new WebSocket(props.stream)
@@ -70,7 +79,7 @@ const Line = (props) => {
 
         // console.log(String(danceMove.epochMs) + "|" + String(start_time) + "|" + String(label * 1000))
         if (start_time + label * 1000 - 500 < danceMove.epochMs &&
-            danceMove.epochMs < start_time + label * 1000 + 500) {
+            danceMove.epochMs <= start_time + label * 1000 + 500) {
             //if it is, find exact position and break
             pixelsOffsetRelativeLine = (danceMove.epochMs - start_time - label * 1000) * 50 / 1000
             finalDanceMove = danceMove
@@ -85,7 +94,7 @@ const Line = (props) => {
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
                 <Dance name={finalDanceMove.name}
-                    accuracy={finalDanceMove.accuracy} position={pixelsOffsetRelativeLine} />
+                    accuracy={finalDanceMove.accuracy} position={pixelsOffsetRelativeLine + OFFSET} />
                 : <span></span>}
         </div>
     )

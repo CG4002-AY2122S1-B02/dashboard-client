@@ -5,6 +5,8 @@ import Dance from '../dance/Dance';
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
+const BUFFER_MAX_LENGTH = 5
+
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
     const [buffer, setBuffer] = useState([])
@@ -29,7 +31,7 @@ const Lines = (props) => {
 
     useEffect(() => {
         function getBuffer(b) {
-            if (b.length >= 4) {
+            if (b.length >= BUFFER_MAX_LENGTH) {
                 return [b[0], ...(b.slice(2)), danceMove]
             } else {
                 return [...b, danceMove]
@@ -105,38 +107,10 @@ function sToTime(duration) {
 }
 
 export default function Timeline(props) {
-    const [currentTime, setCurrentTime] = useState(0)
-    const speed = 1
-    const interval = 1
-
-    const generateList = (seconds, displacement) => {
-        var out = []
-        for (let i = displacement; i < seconds - displacement; i += interval) {
-            out.push(i)
-        }
-
-        return out
-    }
-
-    const [timeLabel, setTimeLabel] = useState(generateList(18, -6)) //13
-
-    useEffect(() => {
-        const interval = setInterval(() => unitTime(), speed * 6000);
-        return () => {
-            clearInterval(interval);
-        };
-    });
-
-    const unitTime = () => {
-        setCurrentTime(currentTime + 1)
-        const newTimeLabel = timeLabel.map((value) => value < currentTime * 6 && value >= currentTime * 6 - 6 ? value + 12 : value)
-        setTimeLabel(newTimeLabel)
-    }
-
     return (
         <div className="timeline"
             style={{ height: 300 }}>
-            <Lines timeLabel={timeLabel} stream={props.stream} />
+            <Lines timeLabel={props.timeLabels} stream={props.stream} />
         </div>
     )
 }

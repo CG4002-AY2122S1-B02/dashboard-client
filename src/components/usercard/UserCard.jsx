@@ -10,7 +10,7 @@ export default function UserCard(props) {
                 <span>Position {position}</span>
                 <h1>{name}</h1>
                 <code>{"Sensor Set " + sensor_set}</code>
-                <Timeline stream={props.stream} />
+                <Timeline stream={props.stream} timeLabels={props.timeLabels} />
             </div>
         </div>
     )

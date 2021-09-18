@@ -29,5 +29,9 @@
 
     span{
         z-index: 30;
+        display: flex;
+        span{
+            margin-left: 5px;
+        }
     }
 }

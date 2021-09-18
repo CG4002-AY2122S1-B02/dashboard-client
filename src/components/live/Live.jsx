@@ -1,6 +1,6 @@
 import "./live.scss"
 import React, { useState, useEffect } from 'react';
-import { PathUser1Stream, PathUser2Stream, PathUser3Stream, PositionStream } from '../../config';
+import { User1Port, User2Port, User3Port, PositionStream } from '../../config';
 import UserCard from '../usercard/UserCard';
 
 export const TimelineWindow = 50
@@ -27,9 +27,9 @@ const UserCards = (props) => {
 
     return (
         <div className="user-cards">
-            <UserCard swap={PositionChange} position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={PathUser1Stream} timeLabels={props.timeLabels} />
-            <UserCard swap={PositionChange} position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={PathUser2Stream} timeLabels={props.timeLabels} />
-            <UserCard swap={PositionChange} position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={PathUser3Stream} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} />
+            <UserCard swap={PositionChange} position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} />
         </div>
     )
 }
@@ -47,21 +47,37 @@ export default function Live() {
 
         return out
     }
-    const [TimerUnitTime, setTimerUnitTime] = useState(0)
+    const [TimerUnitTime, setTimerUnitTime] = useState(-1)
     const [TimeLabels, setTimeLabels] = useState(generateList(18, -6)) //13
 
     useEffect(() => {
-        const interval = setInterval(() => unitTime(), speed * 6000);
+        const interval = setInterval(() => unitTime(), speed * 3000);
         return () => {
             clearInterval(interval);
         };
     });
 
-
+    //optimise this instead of buffering the lag
     const unitTime = () => {
-        setTimerUnitTime(TimerUnitTime + 1)
-        const newTimeLabels = TimeLabels.map((value) => value < TimerUnitTime * 6 && value >= TimerUnitTime * 6 - 6 ? value + 12 : value)
+        setTimerUnitTime(t => (t + 1))
+        const newTimeLabels = TimeLabels.map((value) => value < TimerUnitTime * 3 && value >= TimerUnitTime * 3 - 3 ? value + 12 : value)
         setTimeLabels(newTimeLabels)
+
+        //Trying to optimise__________________________________________
+
+        // const startIndex = ((TimerUnitTime + 1) % 6) * 3
+        // const newTimeLabels = TimeLabels
+        // newTimeLabels[startIndex] += 12
+        // newTimeLabels[startIndex + 1] += 12
+        // newTimeLabels[startIndex + 2] += 12
+        // setTimeLabels(newTimeLabels)
+
+        // setTimeLabels(tls => [...tls.slice(0, startIndex),
+        // tls[startIndex] + 12,
+        // tls[startIndex + 1] + 12,
+        // tls[startIndex + 2] + 12,
+        // ...tls.slice(startIndex + 3)
+        // ])
     }
     //_____________________________________________________
 

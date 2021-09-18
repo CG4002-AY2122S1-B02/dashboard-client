@@ -1,30 +1,32 @@
 import './timeline.scss'
 import React, { useState, useEffect } from 'react';
 import Dance from '../dance/Dance';
+import { PathStreamAll } from '../../config';
 
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
-const BUFFER_MAX_LENGTH = 10
+const BUFFER_MAX_LENGTH = 5
 const OFFSET = -7
+const START_OFFSET = 0
 
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
     const [buffer, setBuffer] = useState([
-        { "epochMs": Date.now(), "name": "start", "accuracy": "MSG" },
-        { "epochMs": Date.now(), "name": "Push Back", "accuracy": 0 },
-        { "epochMs": Date.now() + 1000, "name": "Scarecrow", "accuracy": 0 },
-        { "epochMs": Date.now() + 2000, "name": "Dab", "accuracy": 0 },
-        { "epochMs": Date.now() + 3000, "name": "Snake", "accuracy": 0 },
-        { "epochMs": Date.now() + 4000, "name": "Window360", "accuracy": 0 },
-        { "epochMs": Date.now() + 5000, "name": "James Bond", "accuracy": 0 },
-        { "epochMs": Date.now() + 6000, "name": "Cowboy", "accuracy": 0 },
-        { "epochMs": Date.now() + 7000, "name": "Mermaid", "accuracy": 0 },
+        // { "epochMs": Date.now(), "name": "start", "accuracy": "MSG" },
+        // { "epochMs": Date.now(), "name": "Push Back", "accuracy": 0 },
+        // { "epochMs": Date.now() + 1000, "name": "Scarecrow", "accuracy": 1 },
+        // { "epochMs": Date.now() + 2000, "name": "Dab", "accuracy": 3 },
+        // { "epochMs": Date.now() + 3000, "name": "Snake", "accuracy": 2 },
+        // { "epochMs": Date.now() + 4000, "name": "Window360", "accuracy": 3 },
+        // { "epochMs": Date.now() + 5000, "name": "James Bond", "accuracy": 1 },
+        // { "epochMs": Date.now() + 6000, "name": "Cowboy", "accuracy": 1 },
+        // { "epochMs": Date.now() + 7000, "name": "Mermaid", "accuracy": 2 },
     ])
-    const [danceMove, setDanceMove] = useState({ "epochMs": Date.now() + 3500, "name": "x", "accuracy": 0 },)
+    const [danceMove, setDanceMove] = useState({ "epochMs": Date.now(), "name": "start", "accuracy": 0 },)
 
     useEffect(() => {
-        const socket = new WebSocket(props.stream)
+        const socket = new WebSocket(PathStreamAll + props.stream)
         socket.onopen = () => {
         }
 
@@ -52,9 +54,9 @@ const Lines = (props) => {
         ))
     }, [danceMove])
 
-    useEffect(() => {
-        console.log(buffer)
-    }, [buffer])
+    // useEffect(() => {
+    //     console.log(buffer)
+    // }, [buffer])
 
     //_______________________________________________________________
 
@@ -70,7 +72,7 @@ const Lines = (props) => {
 
 const Line = (props) => {
     const label = props.label
-    const start_time = props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()
+    const start_time = (props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()) + START_OFFSET
     var pixelsOffsetRelativeLine = null
     var finalDanceMove = null
     for (let i = 1; i < props.buffer.length; i++) {

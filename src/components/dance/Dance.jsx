@@ -1,4 +1,5 @@
 import './dance.scss'
+import StarIcon from '@material-ui/icons/Star';
 
 export default function Dance(props) {
     const { name, accuracy, position } = props
@@ -35,13 +36,45 @@ export default function Dance(props) {
             break;
     }
 
+    const Rating = (props) => {
+        const accuracy = parseInt(props.accuracy)
+        switch (accuracy) {
+            case 0:
+                return (
+                    <span><StarOnOff on={false} /><StarOnOff on={false} /><StarOnOff on={false} /></span>
+                )
+            case 1:
+                return (
+                    <span><StarOnOff on={true} /><StarOnOff on={false} /><StarOnOff on={false} /></span>
+                )
+            case 2:
+                return (
+                    <span><StarOnOff on={true} /><StarOnOff on={true} /><StarOnOff on={false} /></span>
+                )
+            case 3:
+                return (
+                    <span><StarOnOff on={true} /><StarOnOff on={true} /><StarOnOff on={true} /></span>
+                )
+            default:
+                return <span></span>
+        }
+    }
+
+    const StarOnOff = (props) => (
+        <span style={props.on ? { color: 'inherit' } : { color: '#222222' }}>
+            <StarIcon color="inherit" />
+        </span>
+    )
+
+    if (name === "") {
+        return <span></span>
+    }
 
     return (
         <div className="dance"
             style={{ backgroundImage: gradientText, bottom: position }}
         >
-            {/* <div className="fill" style={{ width: accuracy }}></div> */}
-            <span>{name}</span>
+            <span>{name}<span> </span><Rating accuracy={accuracy} /></span>
         </div>
     )
 }

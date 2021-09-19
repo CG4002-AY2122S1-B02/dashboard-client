@@ -29,7 +29,6 @@ export default function UserCard(props) {
         }
 
         DanceMoveAccuracysocket.onmessage = (e) => {
-            console.log(e.data)
             setTotalAccuracy(a => a + parseInt(e.data))
         }
     }, [props.stream])
@@ -55,7 +54,7 @@ export default function UserCard(props) {
                         <strong> {totalAccuracy} </strong><StarIcon />
                     </div>
                 </div>
-                <Timeline stream={props.stream} timeLabels={props.timeLabels} />
+                <Timeline stream={props.stream} timeLabels={props.timeLabels} timelineState={props.timelineState} />
             </div>
         </div>
     )

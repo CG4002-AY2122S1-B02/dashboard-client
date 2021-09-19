@@ -23,7 +23,7 @@ const Lines = (props) => {
         // { "epochMs": Date.now() + 6000, "name": "Cowboy", "accuracy": 1 },
         // { "epochMs": Date.now() + 7000, "name": "Mermaid", "accuracy": 2 },
     ])
-    const [danceMove, setDanceMove] = useState({ "epochMs": Date.now(), "name": "start", "accuracy": 0 },)
+    const [danceMove, setDanceMove] = useState({ "epochMs": Date.now(), "name": "start", "accuracy": 0 })
 
     useEffect(() => {
         const socket = new WebSocket(PathStreamAll + props.stream)
@@ -54,6 +54,10 @@ const Lines = (props) => {
         ))
     }, [danceMove])
 
+    useEffect(() => {
+        setBuffer([{ "epochMs": Date.now(), "name": "start", "accuracy": 0 }])
+    }, [props.timelineState])
+
     // useEffect(() => {
     //     console.log(buffer)
     // }, [buffer])
@@ -64,7 +68,7 @@ const Lines = (props) => {
     return (
         <div className="lines" >
             {props.timeLabel.map((l) => (
-                <Line label={l} buffer={buffer} />
+                <Line timelineState={props.timelineState} label={l} buffer={buffer} />
             ))}
         </div>
     )
@@ -89,9 +93,8 @@ const Line = (props) => {
         }
     }
 
-
     return (
-        <div className="line move" style={{ bottom: props.bottom }}>
+        <div className={"line" + (props.timelineState ? " move" : "")} style={{ bottom: props.bottom }}>
             <div className="line-label"> {sToTime(label)} </div>
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
@@ -121,7 +124,7 @@ export default function Timeline(props) {
     return (
         <div className="timeline"
             style={{ height: 300 }}>
-            <Lines timeLabel={props.timeLabels} stream={props.stream} />
+            <Lines timeLabel={props.timeLabels} stream={props.stream} timelineState={props.timelineState} />
         </div>
     )
 }

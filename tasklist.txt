@@ -9,3 +9,5 @@ cannot achieve pre-input validation, (correct results only input after session o
 create silohette logo beside last dance move (no pictures feedback)
 If cant think of anything else, can span the timeline to the bottom.
 netflix style user accounts
+vo - for json request and response struct n create
+po - for database operations and struct 

@@ -1,0 +1,75 @@
+@import '../../global.scss';
+
+.controller{
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container{
+        width: 300px;
+        border-radius: 50px;
+        padding: 10px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 192, 203, 0.10);
+        box-shadow: 0 -4px 13px pink;
+        position: relative;
+        overflow: hidden;
+        
+        .session-name-field{
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            position: relative;
+            margin: 0 10px;
+
+            .scrolling-session{
+                position: absolute;
+                left: 20px;
+                width: 100%;
+
+                input{
+                    width: 250px;
+                    background: inherit;
+                    color: $unfocussed_color;
+                    font-size: inherit;
+                    position: absolute;
+                    border: none;
+                    left: 0px;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .button-tabs{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 10px;
+            
+            div{
+                &:hover{
+                    color: rgb(255, 109, 133);
+                    cursor: pointer;
+                }
+            }
+    
+            .user-page-icon {
+                font-size: $controller_passive;
+            }
+    
+            .dance-page-icon {
+                font-size: $controller_active;
+            }
+            
+            .offline-page-icon {
+                font-size: $controller_passive;
+            }
+        }
+    }
+}

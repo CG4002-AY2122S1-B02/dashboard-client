@@ -1,0 +1,14 @@
+@import '../../global.scss';
+
+.error{
+    height: 100%;
+    width: 100%;
+    .container{
+        margin-top: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
+}

@@ -1,0 +1,256 @@
+@import '../../global.scss';
+
+.account{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .container{
+        border-radius: 50px;
+        overflow: hidden;
+        width: 80%;
+        max-width: 1350px;
+        min-width: 900px;
+        height: 50%;
+        min-height: 500px;
+        display: flex;
+        justify-content: space-between;
+        // background: rgba(132, 0, 255, 0.212);
+        box-shadow: 0 2px 13px pink;
+        overflow: hidden;
+
+        div{
+            padding: 30px;
+        }
+
+        .login{
+            transition: 1s ease;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            perspective: 1000px;
+
+            &.is-logged-in{
+                width: 45%;
+                transition: 1s ease;
+            }
+
+            .content{
+                margin: 0;
+                span{
+                    margin: 0;
+                    font-style: italic;
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: $unfocussed_color; 
+                }
+                h1{
+                    margin: 0;
+                    font-weight: 500;
+                    font-size: $large_content_size;
+                }
+
+                .form{
+                    max-width: 600px;
+                    margin-top: 40px;
+                    border-radius: 10px;
+                    border: 1px solid $unfocussed_color;
+                    padding: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    
+                    .field{
+                        margin-bottom: 15px;
+                        padding: 0;
+                        position: relative;
+                        
+                        .icon{
+                            padding: 0;
+                            position: absolute;
+                            left: 10px;
+                            top: 10px;
+                        }
+                    
+                        input{
+                            background: $background_color;
+                            color: $content_color;
+                            border: 2px solid $transparent;
+                            height: 40px;
+                            width: calc(100% - 40px);
+                            padding-left: 40px;
+                            font-size: 20px;
+                            border-radius: 16px;
+                            transition: 0.5s ease;
+    
+                            &:focus{
+                                border: 2px solid $button_background;
+                                outline: none;
+                            }
+                        }
+
+                        span{
+                            background: none;
+                            color: $content_color;
+                            border: 2px solid $transparent;
+                            height: 40px;
+                            width: calc(100% - 40px);
+                            display: inline-block;
+                            margin: auto 0;
+                            padding: 0;
+                            padding-left: 40px;
+                            padding-top: 5px;
+                            font-size: 20px;
+                            border-radius: 16px;
+                            transition: 0.5s ease;
+                        }
+                        
+                    }
+
+                    
+                }
+            }
+
+            .overlay{
+                z-index: -1;
+                position: absolute;
+                top: -100%;
+                left: -100%;
+                width: 250%;
+                height: 250%;
+                
+                background: rgba(175, 95, 147, 0.555);
+                // background-image: linear-gradient(to right, rgba(98, 0, 255, 0.493),rgba(255, 0, 128, 0.507));
+                background-image: url('../../assets/wallpaper.png');
+                -webkit-transform: rotate(30deg);
+                -moz-transform: rotate(30deg);
+                -ms-transform: rotate(30deg);
+                -o-transform: rotate(30deg);
+                transform: rotate(30deg);
+                filter: blur(2.6px);
+                opacity: 50%;
+                // transform: rotate3d(2, -1, -1, -0.2turn);
+            }
+            
+        }
+
+        .users{
+            // transform: translateX(60px);
+            background: inherit;
+            height: 100%;
+            transition: 1s ease;
+            width: 0;
+            background: $button_background;
+            opacity: 0.5;
+            
+            .form{
+                display: none;
+            }
+
+            &.is-logged-in{
+                display: block;
+                width: 50%;
+                transition: 1s ease;
+                position: relative;
+                filter: none;
+                opacity: 1;
+                background: rgba(224, 81, 117, 0.3);
+
+                .form{
+                    display: block;
+                }
+            }
+
+            .user-selection-locked{
+                height: 100%;
+                // opacity: 0.4;
+                // color: $unfocussed_color;
+                // font-size: 300px;
+                // height: 100%;
+                // display: flex;
+                // align-items: center;
+                // justify-content: center;
+                background: $button_background;
+            }
+
+            .form{
+                padding: 0;
+                margin: 0;
+                width: 100%;
+
+                fieldset{
+                    border-radius: 16px;
+                    margin-bottom: 25px;
+                }
+
+                .field{
+                    padding: 0;
+                    margin: 0;
+                    width: 100%;
+                    position: relative;
+
+                    .image-container{
+                        padding: 0;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        display: inline-block;
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+
+                        object-fit: cover;
+                        overflow: hidden;
+                        cursor: pointer;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                
+                    input{
+                        background: $background_color;
+                        color: $content_color;
+                        border: 2px solid $transparent;
+                        height: 50px;
+                        width: calc(100% - 70px);
+                        padding-left: 70px;
+                        font-size: 20px;
+                        border-radius: 16px;
+                        transition: 0.5s ease;
+
+                        &:focus{
+                            border: 2px solid $transparent;
+                            color: $button_background;
+                            outline: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.profile-selection{
+    width: 70px;
+    margin-left: -60px;
+    .image-container{
+        padding: 0;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+
+        object-fit: cover;
+        overflow: hidden;
+        cursor: pointer;
+
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

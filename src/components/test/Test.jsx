@@ -1,5 +1,5 @@
 // import './test.scss'
-// import { PathUser1Stream, PathUser2Stream, PathUser3Stream, PositionStream } from '../../config';
+// import { PathUser1Stream, PathUser2Stream, PathUser3Stream, PathPositionStream } from '../../config';
 // import React, { useState, useEffect } from 'react';
 
 // export default function Test() {
@@ -11,7 +11,7 @@
 //         const socket1 = new WebSocket(PathUser1Stream)
 //         const socket2 = new WebSocket(PathUser2Stream)
 //         const socket3 = new WebSocket(PathUser3Stream)
-//         const socketPosition = new WebSocket(PositionStream)
+//         const socketPosition = new WebSocket(PathPositionStream)
 //         socketPosition.onopen = () => {
 //             setPosition("Connected")
 //         }

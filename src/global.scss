@@ -4,7 +4,38 @@ $large_content_size: 50px;
 //Dark mode
 $background_color: rgb(11, 0, 19);
 $content_color: rgb(197, 197, 197);
+$unfocussed_color: rgb(149, 148, 148);
+$controller_active: 40px;
+$controller_passive: 30px;
 
+$button_background: rgb(224, 81, 117);
+$button_color: white;
+$transparent: rgba(255, 255, 255, 0);
 //Light mode
 // $background_color: rgb(197, 197, 197);
 // $content_color: rgb(11, 0, 19);
+
+button{
+    margin: 0 auto;
+    display: block;
+    border: none;
+    background: $button_background;
+    color: $button_color;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.5s ease;
+    border: 2px solid $transparent;
+
+    &:hover{
+        background: none;
+        color: $button_background;
+        cursor: pointer;
+        border: 2px solid $button_background;
+    }
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}

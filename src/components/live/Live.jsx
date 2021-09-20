@@ -1,7 +1,10 @@
 import "./live.scss"
 import React, { useState, useEffect } from 'react';
-import { User1Port, User2Port, User3Port, PositionStream, PathStreamCommand } from '../../config';
+import { User1Port, User2Port, User3Port, PathStreamCommand, PathPositionStream } from '../../config';
 import UserCard from '../usercard/UserCard';
+import Controller from "../controller/Controller";
+import Error from "../error/Error";
+
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
 
@@ -14,7 +17,7 @@ const UserCards = (props) => {
     const [position, setPosition] = useState('123')
 
     useEffect(() => {
-        const socketPosition = new WebSocket(PositionStream)
+        const socketPosition = new WebSocket(PathPositionStream)
         socketPosition.onopen = () => {
             setPosition("123")
         }
@@ -29,14 +32,15 @@ const UserCards = (props) => {
 
     return (
         <div className="user-cards">
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={"Michael"} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={"Sanath"} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={"Jerry"} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} />
         </div>
     )
 }
 
-export default function Live() {
+export default function Live(props) {
+    const { loggedIn, master, user1, user2, user3 } = props.account
 
     //Timer_______________________________________________
     const speed = 1
@@ -85,8 +89,8 @@ export default function Live() {
     }
     //_____________________________________________________
 
-    const handleSubmit = (start) => {
-        if (start) {
+    const handleSubmit = () => {
+        if (!timelineState) {
             setTimelineState(true)
             setTimerUnitTime(-1)
             setTimeLabels(generateList(18, -6))
@@ -96,19 +100,18 @@ export default function Live() {
             setTimeLabels(generateList(18, -6))
         }
         const payload = {
-            start: start,
-            username1: "michael",
-            username2: "sanath",
-            username3: "jerry",
-            session_timestamp: 0,
+            start: !timelineState,
+            account_name: master,
+            username1: user1,
+            username2: user2,
+            username3: user3,
+            session_timestamp: Date.now(),
         }
 
 
         fetch(PathStreamCommand, {
             method: "post",
             mode: 'cors',
-            // credentials: "same-origin",
-            // mode: "same-origin",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         }).then(() => {
@@ -119,13 +122,14 @@ export default function Live() {
         })
     }
 
+    if (!loggedIn || user1 === "" || user2 === "" || user3 === "") return (
+        <Error />
+    )
 
     return (
         <div className="live">
-            <button onClick={() => handleSubmit(true)}><h2>START</h2></button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button onClick={() => handleSubmit(false)}><h2>STOP</h2></button>
-            <UserCards timeLabels={TimeLabels} timelineState={timelineState} />
+            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} />
+            <Controller toggleDance={handleSubmit} dancing={!timelineState} />
         </div>
     );
 }

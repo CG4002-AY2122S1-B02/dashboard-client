@@ -6,10 +6,15 @@ const HTTP = "http://"
 
 //stream api
 export const PathStreamAll = "ws://" + DashboardServerPath + "stream/ws/"
-export const PositionStream = "ws://" + DashboardServerPath + "stream/position"
+export const PathPositionStream = "ws://" + DashboardServerPath + "stream/position"
 export const PathStreamCommand = HTTP + DashboardServerPath + "stream/command"
 
 //attributes
 export const PathDanceMove = "dance+move"
 export const PathAccuracy = "accuracy"
 export const PathEpochMs = "epoch+ms"
+
+//account api
+export const PathLogin = HTTP + DashboardServerPath + "account/login"
+export const PathLogout = HTTP + DashboardServerPath + "account/logout"
+export const PathCreateUsers = HTTP + DashboardServerPath + "account/users/register"

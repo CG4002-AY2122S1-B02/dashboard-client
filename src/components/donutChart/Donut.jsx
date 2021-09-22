@@ -6,39 +6,51 @@ import {
     ChartSeries,
     ChartSeriesItem,
     ChartSeriesLabels,
+    ChartTitle,
+    ChartTooltip
 } from "@progress/kendo-react-charts";
 import "hammerjs";
 
 // https://www.telerik.com/kendo-react-ui/getting-started/
 
-const data = [{
-    "kind": "Hydroelectric", "share": 0.175
-}, {
-    "kind": "Nuclear", "share": 0.238
-}, {
-    "kind": "Coal", "share": 0.118
-}, {
-    "kind": "Solar", "share": 0.052
-}, {
-    "kind": "Wind", "share": 0.225
-}, {
-    "kind": "Other", "share": 0.192
-}]
+const donutCenterGenerator = (text) => {
+    const donutCenterRenderer = () => (
+        <span>
+            <h3>{text}</h3>
+        </span>
+    );
 
-const donutCenterRenderer = () => (
-    <span>
-        <h3>22.5%</h3> of which renewables
-    </span>
-);
+    return donutCenterRenderer
+}
 
 const labelContent = (e) => e.category;
 
-const ChartContainer = () => (
-    <Chart donutCenterRender={donutCenterRenderer}>
+const renderToolTipGenerator = (total) => {
+    const renderTooltip = (context) => {
+        // const { category, series, value } = context.point || context;
+        const { value } = context.point || context;
+        return (
+            <div>
+                {/* {category} */}
+                {/* ({series.name}) */}
+                {String(value * 100).slice(0, 5)}% ({Math.round(value * total)}/{total})
+            </div>
+        );
+    };
+
+    return renderTooltip
+}
+
+
+const ChartContainer = (props) => (
+    <Chart donutCenterRender={donutCenterGenerator(props.centerText)}>
+        <ChartTitle text="" />
+        <ChartTooltip render={renderToolTipGenerator(props.total)} />
         <ChartSeries>
             <ChartSeriesItem
+                name="user1"
                 type="donut"
-                data={data}
+                data={props.data}
                 categoryField="kind"
                 field="share"
             >
@@ -49,14 +61,17 @@ const ChartContainer = () => (
                 />
             </ChartSeriesItem>
         </ChartSeries>
-        <ChartLegend visible={true} />
+        <ChartLegend visible={false} />
     </Chart>
 );
 
-export default function Donut() {
+export default function Donut(props) {
     return (
         <div className="donut">
-            <ChartContainer />
+            <h2>{props.title}</h2>
+            <div className="chart">
+                <ChartContainer data={props.data} centerText={props.centerText} total={props.total} />
+            </div>
         </div>
     )
 }

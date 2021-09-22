@@ -12,11 +12,11 @@ import Test from './components/test/Test';
 
 function App() {
   const [account, setAccount] = useState({
-    "master": "Master xxxx",
-    "loggedIn": false,
-    "user1": "",
-    "user2": "",
-    "user3": ""
+    "master": "CG4002",
+    "loggedIn": true,
+    "user1": "Sanath",
+    "user2": "Michael",
+    "user3": "Josh"
   })
 
   const login = (master, password) => {

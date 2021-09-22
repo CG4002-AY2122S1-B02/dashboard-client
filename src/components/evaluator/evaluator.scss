@@ -5,155 +5,234 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    max-width: 900px;
-    min-width: 700px;
-    height: 900px;
+    max-width: 1000px;
+    min-width: 800px;
     position: relative;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid pink;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 13px pink;
+    padding-top: 10px;
+    transition: 0.2s ease;
 
-    .review{
+    
+    h1{
+        font-weight: 400;
         width: 100%;
-        position: relative;
+        text-align: center;
+        margin: 0;
+        font-size: $large_content_size;
+        color: $button_color;
         display: flex;
-        overflow: hidden;
-        height: 430px;
-    
-        .labels{
-            position: relative;
-            z-index: 55;
-            height: calc(100% - 15px);
-            width: 300px;
-            margin-top: 15px;
-            transition: 0.5s ease;
-            // background: $faint_background;
-            border-radius: 10px;
-            padding-right: 10px;
-    
-            &.close{
-                margin-left: -270px;
-            }
-    
-            h2{
+        align-items: end;
+        justify-content: center;
+
+        .btn-container{
+            margin-left: 10px;
+            margin-bottom: 5px;
+
+            button{
                 margin: 0;
-                width: 300px;
-                white-space: nowrap;
-                text-align: end;
-                overflow: hidden;
-                font-size: 25.5px;
-            }
-    
-            .ground-truth{
-                height: 23px;
-            }
-    
-            .btn-container{
-                position: absolute;
-                right: 20px;
-                top: 350px;
-                width: 20px;
-    
-                button{
-                    padding: 4px 5px;
-                    padding-right: 27px;
-                    width: 100%;
-                }
+                padding: 0;
             }
         }
-    
-        .box{
-            position: relative;
-            z-index: 35;
-            // width: calc(100% - 300px);
-            height: 100%;
-            overflow: auto;
-    
-            .separator{
-                width: 100%;
-                margin: 40px 0;
-            }
-    
-            .chip-list{
-                display: flex;
-                height: 35px;
-                width: fit-content;
-                margin-left: 10px;
-    
-                .dance-container{
-                    width: 85px;
-                    height: 50px;
-                    position: relative;
-                    margin: 0;
-                    margin-left: 45px;
-                    overflow: visible;
-    
-                    .dance{
-                        height: 25px;
-                        width: 120px;
-                        right: 0;
-                        align-items: center;
-                    }
-                
-                    
-                    &.reading{
-                        opacity: 0.7;
-                    }
-                }
-            
-                
-                &.autocomplete{
-                    align-items: center;
-                    margin-top: 35px;
-                    margin-bottom: 30px;
-                    margin-left: 0;
-                    // position: relative;
-                    // overflow: hidden;
-    
-                    h2{
-                        height: 50px;
-                        align-self: center;
-                        margin-top: 20px;
-                        padding-top: 30px;
-                    }
-    
-                    .autocomplete-field{
-                        position: relative;
-                    }
-                }
-    
-            }
-        }
-    
     }
+
+    .main-container{
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        transition: 0.5s ease;
+
+        .evaluator-options{
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+
+            button{
+                display: flex;
+                align-items: center;
+            }
+        }
+
+
+        .review{
+            padding: 10px;
+            width: calc(100% - 20px);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            height: fit-content;
     
-    .autocomplete-dance-container{
+            .line{
+                width: 100%;
+                position: absolute;
+                height: 2px;
+                background: rgba(255, 0, 149, 0.425);
+                z-index: 60;
+                left: 0;
+                display: none;
+    
+                &.pos-0{
+                    top: 70px;
+                }
+    
+                &.pos-1{
+                    top: 205px;
+                }
+    
+                &.pos-2{
+                    top: 335px;
+                }
+    
+                &.pos-3{
+                    top: 465px;
+                }
+            }
+        
+            .labels{
+                position: relative;
+                z-index: 55;
+                height: calc(100% - 15px);
+                width: 300px;
+                margin-top: 15px;
+                transition: 0.5s ease;
+                // background: $faint_background;
+                border-radius: 10px;
+                padding-right: 10px;
+        
+                &.close{
+                    margin-left: -265px;
+                }
+        
+                h2{
+                    margin: 0;
+                    width: 300px;
+                    white-space: nowrap;
+                    text-align: end;
+                    overflow: hidden;
+                    font-size: 25.5px;
+                    font-weight: 400;
+                }
+        
+                .btn-container{
+                    position: absolute;
+                    right: 35px;
+                    top: 0;
+                    width: 20px;
+        
+                    button{
+                        padding: 4px 5px;
+                        padding-right: 23px;
+                        padding-left: 2px;
+                        width: 100%;
+                    }
+                }
+            }
+        
+            .box{
+                position: relative;
+                z-index: 35;
+                // width: calc(100% - 300px);
+                height: 100%;
+                overflow: auto;
+        
+                .separator{
+                    width: 100%;
+                    margin: 40px 0;
+                }
+            }
+        
+        }
+    }
+}
+
+.autocomplete-dance-container{
+    width: 85px;
+    height: 30px;
+    position: relative;
+    margin: 0;
+    margin-left: 45px;
+    overflow: visible;
+
+    &.first{
+        margin-left: 40px;
+    }
+
+    .dance{
+        height: 100%;
+        width: 120px;
+        right: 0;
+        align-items: center;
+    }
+
+    .cancel-icon{
+        position:absolute;
+        top: 5px;
+        right: 10px;
+        z-index: 40;
+        font-size: 20px;
+        color: rgb(233, 233, 233);
+        cursor: pointer;
+    }
+}
+
+.chip-list{
+    display: flex;
+    height: 35px;
+    width: fit-content;
+    margin-left: 10px;
+
+    .dance-container{
         width: 85px;
-        height: 30px;
+        height: 50px;
         position: relative;
         margin: 0;
         margin-left: 45px;
         overflow: visible;
-    
-        &.first{
-            margin-left: 40px;
-        }
-    
+        filter: none;
+        
         .dance{
-            height: 100%;
+            height: 25px;
             width: 120px;
             right: 0;
             align-items: center;
         }
     
-        .cancel-icon{
-            position:absolute;
-            top: 5px;
-            right: 10px;
-            z-index: 40;
-            font-size: 20px;
-            color: rgb(233, 233, 233);
-            cursor: pointer;
+        
+        &.wrong{
+            filter: brightness(0.5);
         }
     }
+
+    
+    &.autocomplete{
+        align-items: center;
+        margin-top: 35px;
+        margin-left: 0;
+        position: relative;
+        overflow: hidden;
+        height: 60px;
+        position: relative;
+
+        h2{
+            height: 50px;
+            align-self: center;
+            margin-top: 20px;
+            padding-top: 30px;
+        }
+
+        .autocomplete-field{
+            position: absolute;
+            right: 0;
+            top: 0;
+            position: relative;
+        }
+    }
+
+}
+
+.space-23{
+    height: 23px;
 }

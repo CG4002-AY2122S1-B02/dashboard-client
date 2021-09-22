@@ -30,6 +30,10 @@ export default function Dance(props) {
         case "Mermaid": //green and blue
             gradientText = "linear-gradient(to right,#007082,50%, #008000)"
             break
+        case "X":
+        case "WRONG":
+            gradientText = "linear-gradient(to right,#777777,50%, #777777)"
+            break
 
         default:
             if (accuracy === -1) {

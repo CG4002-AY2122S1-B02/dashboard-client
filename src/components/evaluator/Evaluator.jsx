@@ -1,7 +1,7 @@
 import './evaluator.scss'
 import Dance from '../dance/Dance'
 import ScrollContainer from "react-indiana-drag-scroll";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -9,7 +9,80 @@ import { Popper } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Donut from '../donutChart/Donut';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { emptySessionData, PathUploadSession } from '../../config'
+
+const danceOptions = ["Push Back", "Dab", "Snake", "Window360", "James Bond", "Cowboy", "Mermaid", "Scarecrow", "WRONG"]
+const positionOptions = ["123", "132", "213", "231", "312", "321", "WRONG"]
+
+//this method generator is for autocomplete
+const limitSetGenerator = (setTrue, returnList, setReturnList, key) => {
+    const limitedSetMethod = (values) => {
+        if (values.length <= returnList.length) {
+            setTrue(values)
+            validateReturn(values, returnList, setReturnList, key)
+        }
+    }
+
+    return limitedSetMethod
+}
+
+//this method generator is for read data of returned value
+const setIndexOrAppendGenerator = (trueList, setTrue, returnList, setReturnList, key) => {
+    const setIndexOrAppendMethod = (index, value) => {
+        if (trueList.length <= index) {
+            const newTrueList = [...trueList, value]
+            setTrue(a => [...a, value])
+            validateReturn(newTrueList, returnList, setReturnList, key)
+        } else if (trueList[index] === value) {
+            const newTrueList = [...trueList.slice(0, index), "WRONG", ...trueList.slice(index + 1)]
+            setTrue(a => [...a.slice(0, index), "WRONG", ...a.slice(index + 1)])
+            validateReturn(newTrueList, returnList, setReturnList, key)
+        } else {
+            const newTrueList = [...trueList.slice(0, index), value, ...trueList.slice(index + 1)]
+            setTrue(a => [...a.slice(0, index), value, ...a.slice(index + 1)])
+            validateReturn(newTrueList, returnList, setReturnList, key)
+        }
+    }
+
+    return setIndexOrAppendMethod
+}
+
+const validateReturn = (trueList, returnList, setReturnList, key) => {
+    var updatedObjList = [] //carries updated return value size of truelist
+    for (let i = 0; i < returnList.length; i++) {
+        var updatedObj = returnList[i]
+        if (i >= trueList.length) {
+            updatedObj.end = "wrong"
+        } else {
+            updatedObj.end = (trueList[i] === updatedObj[key] ? "correct" : "wrong")
+        }
+        updatedObjList.push(updatedObj)
+    }
+
+    setReturnList(a => [...updatedObjList, ...a.slice(updatedObjList.length)])
+}
+
+const ReadDataRow = (props) => {
+    const { dataList, isPosition, setIndexOrAdd, id } = props
+
+    return (
+        <div className="chip-list">
+            {dataList.map((move, index) => {
+                const dataUnit = isPosition ? move.position : move.dance_move
+                return (
+                    <div key={String(id) + String(index)} className={"dance-container" + (move.end === "correct" ? "" : " wrong")}
+                        onClick={() => setIndexOrAdd(index, dataUnit)} style={{ cursor: "pointer" }}>
+                        <Dance name={dataUnit} accuracy={isPosition ? -1 : null} position={0} />
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
 
 const TrueDataAutocomplete = (props) => {
     const styles = (theme) => ({
@@ -93,7 +166,9 @@ const TrueDataAutocomplete = (props) => {
     const classes = useAutocompleteStyles();
 
     return (
-        <div className="chip-list autocomplete">
+        <div className="chip-list autocomplete"
+        // style={{ width: String(125 * props.maxLength) + "px" }}
+        >
             <div className="autocomplete-field">
                 <Autocomplete
                     classes={classes}
@@ -116,10 +191,10 @@ const TrueDataAutocomplete = (props) => {
                                 isPosition={props.isPosition} {...getTagProps({ index })} />
                         ))
                     }
-                    style={{ width: String(props.width) + "px", color: "white" }}
+                    style={{ width: String(props.maxLength * 125 + 300) + "px", color: "white" }}
                     renderInput={(params) => (
                         <TextField {...params}
-                            variant="outlined" placeholder="Input Ground Truth" />
+                            variant="outlined" placeholder={"Input " + props.placeholder} />
                     )}
                 />
             </div>
@@ -127,105 +202,242 @@ const TrueDataAutocomplete = (props) => {
     )
 }
 
+const EvaluatorUnit = (props) => {
+    const { returnList, setReturn, trueList, setTrue, isPosition, id, placeholder } = props
+    const key = isPosition ? "position" : "dance_move"
+    return (
+        <div>
+            <ReadDataRow dataList={returnList} isPosition={isPosition} id={id}
+                setIndexOrAdd={setIndexOrAppendGenerator(trueList, setTrue, returnList, setReturn, key)} />
+
+            <TrueDataAutocomplete
+                options={isPosition ? positionOptions : danceOptions}
+                fixedOptions={[]}
+                tags={trueList}
+                setTags={limitSetGenerator(setTrue, returnList, setReturn, key)}
+                maxLength={returnList.length}
+                isPosition={isPosition}
+                placeholder={placeholder}
+            />
+        </div>
+    )
+}
+
 export default function Evaluator(props) {
-    // const { user1, user2, user3 } = props.account
-    const { user1, user2, user3 } = { user1: "Jerry", user2: "Michael", user3: "Sanath" }
-    const danceList = ["Push Back", "Dab", "Snake", "Window360", "James Bond", "Dab", "Scarecrow", "Push Back", "Dab", "Snake", "Window360", "James Bond", "Dab", "Scarecrow"]
-    const longestDanceList = danceList
-    const positionList = ["123", "321", "213", "312", "132", "231", "312", "123", "321", "213", "312", "132", "231", "312"]
-    const danceOptions = ["Push Back", "Dab", "Snake", "Window360", "James Bond", "Cowboy", "Mermaid", "Scarecrow"]
-    const positionOptions = ["123", "132", "213", "231", "312", "321"]
+    const { user1, user2, user3, master } = props.account
+    const { setDataPreview, setPositionDataPreview, setCurrentSessionData, data } = props
+    const [returnPosition, setReturnPosition] = useState(data.position)
     const [TruePosition, setTruePosition] = useState([])
-    const fixedOptions = []
-    const [tags, setTags] = useState([...fixedOptions]);
-    const passedSetTags = (t) => {
-        if (t.length <= danceList.length) {
-            setTags(t)
+    const [returnUser1, setReturnUser1] = useState(data.user_1)
+    const [trueUser1, setTrueUser1] = useState([])
+    const [returnUser2, setReturnUser2] = useState(data.user_2)
+    const [trueUser2, setTrueUser2] = useState([])
+    const [returnUser3, setReturnUser3] = useState(data.user_3)
+    const [trueUser3, setTrueUser3] = useState([])
+
+    const longestUserLength = returnUser1.length > returnUser2.length ?
+        (returnUser1.length > returnUser3.length ? returnUser1.length : returnUser3.length) :
+        (returnUser2.length > returnUser3.length ? returnUser2.length : returnUser3.length)
+
+    const [ShowLabels, setShowLabels] = useState(false)
+    const [collapseEvaluator, setCollapseEvaluator] = useState(false)
+
+    const UploadSession = () => {
+        const payload = {
+            "session_timestamp": Date.now(),
+            "session_name": "xxx",
+            "account_name": master,
+            "username_1": user1,
+            "username_2": user2,
+            "username_3": user3,
+
+            "sensor_data": {
+                "user_1": returnUser1,
+                "user_2": returnUser2,
+                "user_3": returnUser3,
+                "position": returnPosition,
+            }
         }
-    }
-    const passedSetPosition = (p) => {
-        if (p.length <= danceList.length) {
-            setTruePosition(p)
-        }
+
+        fetch(PathUploadSession, {
+            method: "post",
+            mode: 'cors',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }).then((r) => {
+            console.log(payload)
+
+            if (r.status === 200) {
+                console.log(r)
+            } else {
+                console.log(r)
+            }
+        })
     }
 
-    const [ShowLabels, setShowLabels] = useState(true)
+    useEffect(() => {
+        var previewPositionData = [returnPosition.length, 0]
+
+        for (let i = 0; i < previewPositionData[0]; i++) {
+            if (returnPosition[i].end !== "correct") continue
+            previewPositionData[1]++
+        }
+        setPositionDataPreview(previewPositionData)
+
+    }, [returnPosition, setPositionDataPreview])
+
+    useEffect(() => {
+        var previewDataUser = [0, 0, 0, 0]
+        previewDataUser[0] = returnUser1.length
+
+        for (let i = 0; i < previewDataUser[0]; i++) {
+            if (returnUser1[i].end !== "correct") continue
+            for (let j = 1; j <= 3; j++) {
+                if (returnUser1[i].accuracy === j) {
+                    previewDataUser[j]++
+                    break
+                }
+            }
+        }
+        setDataPreview(a => [previewDataUser, a[1], a[2]])
+
+    }, [returnUser1, setDataPreview])
+
+    useEffect(() => {
+        var previewDataUser = [0, 0, 0, 0]
+        previewDataUser[0] = returnUser2.length
+
+        for (let i = 0; i < previewDataUser[0]; i++) {
+            if (returnUser2[i].end !== "correct") continue
+            for (let j = 1; j <= 3; j++) {
+                if (returnUser2[i].accuracy === j) {
+                    previewDataUser[j]++
+                    break
+                }
+            }
+        }
+        setDataPreview(a => [a[0], previewDataUser, a[2]])
+
+    }, [returnUser2, setDataPreview])
+
+    useEffect(() => {
+        var previewDataUser = [0, 0, 0, 0]
+        previewDataUser[0] = returnUser3.length
+
+        for (let i = 0; i < previewDataUser[0]; i++) {
+            if (returnUser3[i].end !== "correct") continue
+            for (let j = 1; j <= 3; j++) {
+                if (returnUser3[i].accuracy === j) {
+                    previewDataUser[j]++
+                    break
+                }
+            }
+        }
+        setDataPreview(a => [a[0], a[1], previewDataUser])
+
+    }, [returnUser3, setDataPreview])
 
     return (
-        <div className="evaluator">
-            <div className="review">
-                <div className={"labels" + (ShowLabels ? "" : " close")}>
-                    <h2>#</h2>
-                    <h2>{user1}~1:&nbsp;</h2>
-                    <h2>{user2}~2:&nbsp;</h2>
-                    <h2>{user3}~3:&nbsp;</h2>
-                    <div className="ground-truth"></div>
-                    <h2>True Dance Moves~T:&nbsp;</h2>
-                    <div className="ground-truth"></div>
-                    <div className="ground-truth"></div>
-                    <h2>Position~P:&nbsp;</h2>
-                    <div className="ground-truth"></div>
-                    <h2>True Position~T:&nbsp;</h2>
-                    <div className="btn-container">
-                        <button onClick={() => setShowLabels(a => !a)}>{ShowLabels ? <ArrowBackIosIcon /> : <ArrowForwardIosIcon />}</button>
-                    </div>
+        <div className="evaluator"
+            style={{ height: collapseEvaluator ? "60px" : "740px" }}
+        >
+            <h1>Evaluator
+                <div className="btn-container" >
+                    <button className="expand-collapse" onClick={() => setCollapseEvaluator(c => !c)}>
+                        {collapseEvaluator ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    </button>
                 </div>
-                <ScrollContainer className="box" vertical={false}>
-                    <div className="chip-list">
-                        {longestDanceList.map((move, i) => (
-                            <div className="dance-container">
-                                <Dance name={i + 1} accuracy={null} position={0} />
-                            </div>
-                        ))}
-                    </div>
-                    <div className="chip-list">
-                        {danceList.map((move) => (
-                            <div className="dance-container reading">
-                                <Dance name={move} accuracy={null} position={0} />
-                            </div>
-                        ))}
-                    </div>
-                    <div className="chip-list">
-                        {danceList.map((move) => (
-                            <div className="dance-container reading">
-                                <Dance name={move} accuracy={null} position={0} />
-                            </div>
-                        ))}
-                    </div>
-                    <div className="chip-list">
-                        {danceList.map((move) => (
-                            <div className="dance-container reading">
-                                <Dance name={move} accuracy={null} position={0} />
-                            </div>
-                        ))}
-                    </div>
-                    <TrueDataAutocomplete
-                        options={danceOptions}
-                        fixedOptions={[]}
-                        tags={tags}
-                        setTags={passedSetTags}
-                        width={danceList.length * 125 + 300}
-                        isPosition={false}
-                    />
+            </h1>
 
-                    <div className="chip-list">
-                        {positionList.map((move) => (
-                            <div className="dance-container reading">
-                                <Dance name={move} accuracy={-1} position={0} />
-                            </div>
-                        ))}
+
+
+            <div className="main-container">
+                <div className="review">
+                    <div className={"labels" + (ShowLabels ? "" : " close")}>
+                        <h2> &nbsp; </h2>
+                        <div className="space-23"></div>
+
+                        <h2>{user1}~1:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <h2>True Moves ~T:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <div className="space-23"></div>
+                        <h2>{user2}~2:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <h2>True Moves ~T:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <div className="space-23"></div>
+                        <h2>{user3}~3:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <h2>True Moves ~T:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <div className="space-23"></div>
+                        <h2>Position~P:&nbsp;</h2>
+                        <div className="space-23"></div>
+                        <h2>True Position~T:&nbsp;</h2>
+                        <div className="btn-container">
+                            <button className="expand-collapse" onClick={() => setShowLabels(a => !a)}>{ShowLabels ? <ArrowBackIosIcon /> : <ArrowForwardIosIcon />}</button>
+                        </div>
                     </div>
-                    <TrueDataAutocomplete
-                        options={positionOptions}
-                        fixedOptions={[]}
-                        tags={TruePosition}
-                        setTags={passedSetPosition}
-                        width={danceList.length * 125 + 300}
-                        isPosition={true}
-                    />
-                </ScrollContainer>
+                    <ScrollContainer className="box" vertical={false}>
+                        <div className="chip-list">
+                            {[...Array(longestUserLength)].map((move, i) => (
+                                <div className="dance-container">
+                                    <Dance name={i + 1} accuracy={null} position={0} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="space-23"></div>
+
+                        <EvaluatorUnit
+                            id={"0evaluator"}
+                            returnList={returnUser1}
+                            setReturn={setReturnUser1}
+                            trueList={trueUser1}
+                            setTrue={setTrueUser1}
+                            isPosition={false}
+                            placeholder={user1 + "'s Ground Truth"} />
+
+                        <EvaluatorUnit
+                            id={"1evaluator"}
+                            returnList={returnUser2}
+                            setReturn={setReturnUser2}
+                            trueList={trueUser2}
+                            setTrue={setTrueUser2}
+                            isPosition={false}
+                            placeholder={user2 + "'s Ground Truth"} />
+
+                        <EvaluatorUnit
+                            id={"2evaluator"}
+                            returnList={returnUser3}
+                            setReturn={setReturnUser3}
+                            trueList={trueUser3}
+                            setTrue={setTrueUser3}
+                            isPosition={false}
+                            placeholder={user3 + "'s Ground Truth"} />
+
+                        <EvaluatorUnit
+                            id={"3evaluator"}
+                            returnList={returnPosition}
+                            setReturn={setReturnPosition}
+                            trueList={TruePosition}
+                            setTrue={setTruePosition}
+                            isPosition={true}
+                            placeholder={"Position Ground Truth"} />
+
+                    </ScrollContainer>
+
+                    <div className="line pos-0"></div>
+                    <div className="line pos-1"></div>
+                    <div className="line pos-2"></div>
+                    <div className="line pos-3"></div>
+                </div>
+
+                <div className="evaluator-options">
+                    <button onClick={() => { setCurrentSessionData(emptySessionData) }}><DeleteIcon /> &nbsp; DISCARD</button>
+                    <button onClick={() => { UploadSession(); setCurrentSessionData(emptySessionData); }}><CloudUploadIcon /> &nbsp; UPLOAD</button>
+                </div>
             </div>
-            <Donut />
-        </div>
+        </ div>
     )
 }

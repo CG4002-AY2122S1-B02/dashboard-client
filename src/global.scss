@@ -12,6 +12,7 @@ $faint_background:  rgba(224, 81, 117, 0.3);
 $button_background: rgb(224, 81, 117);
 $button_color: white;
 $transparent: rgba(255, 255, 255, 0);
+$panel_background: rgba(255, 255, 255, 0.07);
 //Light mode
 // $background_color: rgb(197, 197, 197);
 // $content_color: rgb(11, 0, 19);
@@ -28,6 +29,11 @@ button{
     transition: 0.5s ease;
     border: 2px solid $transparent;
 
+    &.expand-collapse{
+        background: none;
+        border: 2px solid $content_color;
+    }
+
     &:hover{
         background: none;
         color: $button_background;
@@ -41,13 +47,26 @@ a{
     color: inherit;
 }
 
+.row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 
 $base-bg: #000000;
-$base-text: green;
+$base-text: white;
+$chart-text: white;
 $hovered-bg: black;
 $selected-bg: black;
-$primary: #ff69b4;
-// $series-a: black;
-// $series-b: black;
+$primary: grey;
 $chart-bg: $transparent;
+$series-a: rgb(255, 0, 85);
+$series-b: rgb(174, 0, 255);
+$series-c: rgb(111, 0, 255);
+$series-d: rgb(89, 0, 255);

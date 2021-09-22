@@ -1,9 +1,10 @@
 import "./live.scss"
 import React, { useState, useEffect } from 'react';
-import { User1Port, User2Port, User3Port, PathStreamCommand, PathPositionStream } from '../../config';
+import { User1Port, User2Port, User3Port, PathStreamCommand, PathPositionStream, PathGetCurrentSession, emptySessionData } from '../../config';
 import UserCard from '../usercard/UserCard';
 import Controller from "../controller/Controller";
 import Error from "../error/Error";
+import PreliminaryAnalysis from "../preliminaryAnalysis/Analysis";
 
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
@@ -56,6 +57,7 @@ export default function Live(props) {
     const [TimerUnitTime, setTimerUnitTime] = useState(-1)
     const [timelineState, setTimelineState] = useState(false)
     const [TimeLabels, setTimeLabels] = useState(generateList(18, -6)) //13
+    const [CurrentSessionData, setCurrentSessionData] = useState(emptySessionData)
 
     useEffect(() => {
         const interval = setInterval(() => unitTime(), speed * 3000);
@@ -116,6 +118,26 @@ export default function Live(props) {
             body: JSON.stringify(payload)
         }).then(() => {
             console.log('handle post')
+            if (timelineState) {
+                //first retrieve the upload data then show the Evaluator
+
+                //if we want to stop this, open the Upload manager
+                console.log("Stopped")
+
+                fetch(PathGetCurrentSession, {
+                    method: "get",
+                    mode: 'cors',
+                }).then((r) => {
+                    r.json().then(data => {
+                        console.log(data)
+                        setCurrentSessionData(data)
+                    });
+                    if (r.status === 200) {
+                    } else {
+                    }
+                })
+                setCurrentSessionData(emptySessionData)
+            }
 
 
             //stop / start the css animation, refresh
@@ -130,6 +152,10 @@ export default function Live(props) {
         <div className="live">
             <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} />
             <Controller toggleDance={handleSubmit} dancing={!timelineState} />
+            {CurrentSessionData.empty === true ? <div></div> :
+                <PreliminaryAnalysis account={props.account}
+                    setCurrentSessionData={setCurrentSessionData} CurrentSessionData={CurrentSessionData} />
+            }
         </div>
     );
 }

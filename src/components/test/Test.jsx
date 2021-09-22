@@ -1,10 +1,12 @@
 import './test.scss'
-import Evaluator from "../evaluator/Evaluator";
+import PreliminaryAnalysis from '../preliminaryAnalysis/Analysis';
 
 export default function Test(props) {
+    const account = { user1: "Jerry", user2: "Michael", user3: "Sanath" }
+
     return (
         <div className="test">
-            <Evaluator account={props.account} />
+            <PreliminaryAnalysis account={account} />
         </div>
     );
 }

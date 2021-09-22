@@ -32,6 +32,7 @@
             width: 100%;
             overflow: hidden;
             perspective: 1000px;
+            background-image: linear-gradient(to right, rgba(98, 0, 255, 0.493),rgba(255, 0, 128, 0.507));
 
             &.is-logged-in{
                 width: 45%;
@@ -121,30 +122,28 @@
                 width: 250%;
                 height: 250%;
                 
-                background: rgba(175, 95, 147, 0.555);
-                // background-image: linear-gradient(to right, rgba(98, 0, 255, 0.493),rgba(255, 0, 128, 0.507));
+                // background: rgba(175, 95, 147, 0.555);
                 background-image: url('../../assets/wallpaper.png');
                 -webkit-transform: rotate(30deg);
                 -moz-transform: rotate(30deg);
                 -ms-transform: rotate(30deg);
                 -o-transform: rotate(30deg);
                 transform: rotate(30deg);
-                filter: blur(2.6px);
-                opacity: 50%;
+                // filter: blur(2.6px);
+                // opacity: 50%;
                 // transform: rotate3d(2, -1, -1, -0.2turn);
             }
             
         }
 
         .users{
-            // transform: translateX(60px);
-            background: inherit;
+            background-image: linear-gradient(to right, rgba(194, 0, 97, 0.507), rgba(255, 0, 255, 0.493));
             height: 100%;
             transition: 1s ease;
             width: 0;
-            background: $button_background;
-            opacity: 0.5;
-            
+            filter: hue-rotate(90deg);
+            box-shadow: 0 5px 13px pink;
+
             .form{
                 display: none;
             }
@@ -154,10 +153,10 @@
                 width: 50%;
                 transition: 1s ease;
                 position: relative;
-                filter: none;
-                opacity: 1;
-                background: rgba(224, 81, 117, 0.3);
+                filter: hue-rotate(0deg);
 
+                box-shadow: 0 2px 13px pink;
+                
                 .form{
                     display: block;
                 }

@@ -32,9 +32,14 @@ export default function Dance(props) {
             break
 
         default:
-            gradientText = "linear-gradient(to right,#a71b5c,50%, #a40e8e)"
-            break;
+            if (accuracy === -1) {
+                gradientText = "linear-gradient(to right,#333333,50%, #554455)"
+            } else {
+                gradientText = "none"
+            }
     }
+
+
 
     const Rating = (props) => {
         const accuracy = parseInt(props.accuracy)

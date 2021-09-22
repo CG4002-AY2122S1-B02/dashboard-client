@@ -22,7 +22,7 @@ import { useState } from 'react'
 export default function Account(props) {
     const { master, loggedIn, user1, user2, user3 } = props.account
     const { login, logout, setUsers } = props.operations
-    const [inputMasterAccount, setinputMasterAccount] = useState("")
+    const [inputMasterAccount, setinputMasterAccount] = useState(master)
     const [inputPassword, setinputPassword] = useState("")
     const [inputUsername1, setinputUsername1] = useState(user1)
     const [inputUsername2, setinputUsername2] = useState(user2)

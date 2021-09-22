@@ -8,6 +8,7 @@ import Live from './components/live/Live';
 import Account from './components/account/Account';
 import { useState } from 'react';
 import { PathLogin, PathCreateUsers } from './config';
+import Test from './components/test/Test';
 
 function App() {
   const [account, setAccount] = useState({
@@ -90,6 +91,9 @@ function App() {
             <Account account={account} operations={accountOperations} />
           </Route>
           <Route path="/analytics">
+          </Route>
+          <Route path="/test">
+            <Test account={account} />
           </Route>
           <Route path="/">
             <Live account={account} />

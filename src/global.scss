@@ -8,6 +8,7 @@ $unfocussed_color: rgb(149, 148, 148);
 $controller_active: 40px;
 $controller_passive: 30px;
 
+$faint_background:  rgba(224, 81, 117, 0.3);
 $button_background: rgb(224, 81, 117);
 $button_color: white;
 $transparent: rgba(255, 255, 255, 0);
@@ -39,3 +40,14 @@ a{
     text-decoration: none;
     color: inherit;
 }
+
+
+
+$base-bg: #000000;
+$base-text: green;
+$hovered-bg: black;
+$selected-bg: black;
+$primary: #ff69b4;
+// $series-a: black;
+// $series-b: black;
+$chart-bg: $transparent;

@@ -1,5 +1,9 @@
 @import './global.scss';
 
+//remove this line to clear warnings
+@import "~@progress/kendo-theme-default/dist/all.scss";
+
+
 .App {
   background: $background_color;
   color: $content_color;
@@ -7,3 +11,4 @@
   width: 100%;
   overflow-x: hidden;
 }
+

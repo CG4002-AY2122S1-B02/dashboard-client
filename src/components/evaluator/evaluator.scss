@@ -1,0 +1,159 @@
+@import '../../global.scss';
+
+
+.evaluator{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 900px;
+    min-width: 700px;
+    height: 900px;
+    position: relative;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid pink;
+
+    .review{
+        width: 100%;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        height: 430px;
+    
+        .labels{
+            position: relative;
+            z-index: 55;
+            height: calc(100% - 15px);
+            width: 300px;
+            margin-top: 15px;
+            transition: 0.5s ease;
+            // background: $faint_background;
+            border-radius: 10px;
+            padding-right: 10px;
+    
+            &.close{
+                margin-left: -270px;
+            }
+    
+            h2{
+                margin: 0;
+                width: 300px;
+                white-space: nowrap;
+                text-align: end;
+                overflow: hidden;
+                font-size: 25.5px;
+            }
+    
+            .ground-truth{
+                height: 23px;
+            }
+    
+            .btn-container{
+                position: absolute;
+                right: 20px;
+                top: 350px;
+                width: 20px;
+    
+                button{
+                    padding: 4px 5px;
+                    padding-right: 27px;
+                    width: 100%;
+                }
+            }
+        }
+    
+        .box{
+            position: relative;
+            z-index: 35;
+            // width: calc(100% - 300px);
+            height: 100%;
+            overflow: auto;
+    
+            .separator{
+                width: 100%;
+                margin: 40px 0;
+            }
+    
+            .chip-list{
+                display: flex;
+                height: 35px;
+                width: fit-content;
+                margin-left: 10px;
+    
+                .dance-container{
+                    width: 85px;
+                    height: 50px;
+                    position: relative;
+                    margin: 0;
+                    margin-left: 45px;
+                    overflow: visible;
+    
+                    .dance{
+                        height: 25px;
+                        width: 120px;
+                        right: 0;
+                        align-items: center;
+                    }
+                
+                    
+                    &.reading{
+                        opacity: 0.7;
+                    }
+                }
+            
+                
+                &.autocomplete{
+                    align-items: center;
+                    margin-top: 35px;
+                    margin-bottom: 30px;
+                    margin-left: 0;
+                    // position: relative;
+                    // overflow: hidden;
+    
+                    h2{
+                        height: 50px;
+                        align-self: center;
+                        margin-top: 20px;
+                        padding-top: 30px;
+                    }
+    
+                    .autocomplete-field{
+                        position: relative;
+                    }
+                }
+    
+            }
+        }
+    
+    }
+    
+    .autocomplete-dance-container{
+        width: 85px;
+        height: 30px;
+        position: relative;
+        margin: 0;
+        margin-left: 45px;
+        overflow: visible;
+    
+        &.first{
+            margin-left: 40px;
+        }
+    
+        .dance{
+            height: 100%;
+            width: 120px;
+            right: 0;
+            align-items: center;
+        }
+    
+        .cancel-icon{
+            position:absolute;
+            top: 5px;
+            right: 10px;
+            z-index: 40;
+            font-size: 20px;
+            color: rgb(233, 233, 233);
+            cursor: pointer;
+        }
+    }
+}

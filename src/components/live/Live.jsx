@@ -5,11 +5,22 @@ import UserCard from '../usercard/UserCard';
 import Controller from "../controller/Controller";
 import Error from "../error/Error";
 import PreliminaryAnalysis from "../preliminaryAnalysis/Analysis";
-
+// import window from "../../utils";
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
-
-export const TimelineWindow = 50
+// const { height, width } = window();
+export const BUFFER_MAX_LENGTH = 7
+export const START_OFFSET_MS = -2000
+export const TimelineDivisionHeight = 50 //minimum 20
+export const TimelineHeight = 400
+export const TimelineDivisionSeconds = 1
+const TimelineDivisionsInView = TimelineHeight / TimelineDivisionHeight //6
+const TimelineDivisionsTotal = TimelineDivisionsInView * 3
+const TimelineStartingLabel = -TimelineDivisionsInView
+const TimelineDivisionsUnitUpdate = TimelineDivisionsInView / 2
+const TimelineUpdateInterval = TimelineDivisionSeconds * 1000 * TimelineDivisionsUnitUpdate
+//need change timeline.scss translateY(-600px) &  animate(timestart, 12s, to
+// (-TimelineHeight * 2)px, (TimelineDivisionsInView * 2 * TimelineDivisionSeconds)s
 
 const PositionChange = true
 
@@ -32,10 +43,10 @@ const UserCards = (props) => {
     //____________________________________________________
 
     return (
-        <div className="user-cards">
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} />
+        <div className="user-cards" style={{ paddingBottom: TimelineHeight + 290 }}>
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
         </div>
     )
 }
@@ -44,11 +55,9 @@ export default function Live(props) {
     const { loggedIn, master, user1, user2, user3 } = props.account
 
     //Timer_______________________________________________
-    const speed = 1
-    const timeline_interval = 1
-    const generateList = (seconds, displacement) => {
+    const generateList = () => {
         var out = []
-        for (let i = displacement; i < seconds - displacement; i += timeline_interval) {
+        for (let i = TimelineStartingLabel; i < TimelineDivisionsTotal - TimelineStartingLabel; i += TimelineDivisionSeconds) {
             out.push(i)
         }
 
@@ -56,11 +65,12 @@ export default function Live(props) {
     }
     const [TimerUnitTime, setTimerUnitTime] = useState(-1)
     const [timelineState, setTimelineState] = useState(false)
-    const [TimeLabels, setTimeLabels] = useState(generateList(18, -6)) //13
+    const [TimeLabels, setTimeLabels] = useState(generateList()) //13
     const [CurrentSessionData, setCurrentSessionData] = useState(emptySessionData)
+    const [sessionName, setSessionName] = useState("Our Great Dance Session")
 
     useEffect(() => {
-        const interval = setInterval(() => unitTime(), speed * 3000);
+        const interval = setInterval(() => unitTime(), TimelineUpdateInterval);
         return () => {
             clearInterval(interval);
         };
@@ -70,7 +80,8 @@ export default function Live(props) {
     const unitTime = () => {
         if (!timelineState) return
         setTimerUnitTime(t => (t + 1))
-        const newTimeLabels = TimeLabels.map((value) => value < TimerUnitTime * 3 && value >= TimerUnitTime * 3 - 3 ? value + 12 : value)
+        const newTimeLabels = TimeLabels.map((value) => value < TimerUnitTime * TimelineDivisionsUnitUpdate &&
+            value >= TimerUnitTime * TimelineDivisionsUnitUpdate - TimelineDivisionsUnitUpdate ? value + TimelineDivisionsInView * 2 : value)
         setTimeLabels(newTimeLabels)
 
         //Trying to optimise__________________________________________
@@ -95,11 +106,11 @@ export default function Live(props) {
         if (!timelineState) {
             setTimelineState(true)
             setTimerUnitTime(-1)
-            setTimeLabels(generateList(18, -6))
+            setTimeLabels(generateList())
         } else {
             setTimelineState(false)
             setTimerUnitTime(-1)
-            setTimeLabels(generateList(18, -6))
+            setTimeLabels(generateList())
         }
         const payload = {
             start: !timelineState,
@@ -150,10 +161,10 @@ export default function Live(props) {
 
     return (
         <div className="live">
-            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} />
-            <Controller toggleDance={handleSubmit} dancing={!timelineState} />
+            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionData.empty === true} />
+            <Controller toggleDance={handleSubmit} dancing={!timelineState} setSessionName={setSessionName} />
             {CurrentSessionData.empty === true ? <div></div> :
-                <PreliminaryAnalysis account={props.account}
+                <PreliminaryAnalysis account={props.account} sessionName={sessionName}
                     setCurrentSessionData={setCurrentSessionData} CurrentSessionData={CurrentSessionData} />
             }
         </div>

@@ -35,13 +35,14 @@
             margin-top: 30px;
             padding-top: 15px;
             padding-bottom: 30px;
+            margin-bottom: 30px;
     
             h1{
                 font-weight: 400;
                 width: 100%;
                 text-align: center;
                 margin: 0;
-                font-size: $large_content_size;
+                font-size: $medium_content_size;
                 color: $button_color;
                 display: flex;
                 align-items: end;

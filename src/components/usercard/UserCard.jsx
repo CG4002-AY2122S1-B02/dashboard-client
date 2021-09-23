@@ -6,9 +6,13 @@ import { PathStreamAll, PathDanceMove, PathAccuracy } from '../../config';
 import StarIcon from '@material-ui/icons/Star';
 
 export default function UserCard(props) {
-    const { swap, position, name, sensor_set } = props
+    const { swap, position, name, sensor_set, toggleDance } = props
     const [latestDance, setLatestDance] = useState({ "name": "", "accuracy": -1 },)
     const [totalAccuracy, setTotalAccuracy] = useState(0)
+
+    useEffect(() => {
+        setTotalAccuracy(0)
+    }, [toggleDance])
 
     useEffect(() => {
         const DanceMoveNamesocket = new WebSocket(PathStreamAll + props.stream + PathDanceMove)

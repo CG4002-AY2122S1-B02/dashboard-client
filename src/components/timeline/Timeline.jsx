@@ -2,13 +2,12 @@ import './timeline.scss'
 import React, { useState, useEffect } from 'react';
 import Dance from '../dance/Dance';
 import { PathStreamAll } from '../../config';
+import { TimelineDivisionHeight, TimelineDivisionSeconds, TimelineHeight, START_OFFSET_MS, BUFFER_MAX_LENGTH } from '../live/Live';
 
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
-const BUFFER_MAX_LENGTH = 5
 const OFFSET = -7
-const START_OFFSET = 0
 
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
@@ -76,7 +75,7 @@ const Lines = (props) => {
 
 const Line = (props) => {
     const label = props.label
-    const start_time = (props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()) + START_OFFSET
+    const start_time = (props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()) + START_OFFSET_MS
     var pixelsOffsetRelativeLine = null
     var finalDanceMove = null
     for (let i = 1; i < props.buffer.length; i++) {
@@ -84,17 +83,23 @@ const Line = (props) => {
         //check if start_time + label - x < epochMs < start_time + label + x  
 
         // console.log(String(danceMove.epochMs) + "|" + String(start_time) + "|" + String(label * 1000))
-        if (start_time + label * 1000 - 500 < danceMove.epochMs &&
-            danceMove.epochMs <= start_time + label * 1000 + 500) {
+        if (start_time + label * TimelineDivisionSeconds * 1000 < danceMove.epochMs &&
+            danceMove.epochMs <= start_time + label * TimelineDivisionSeconds * 1000 +
+            TimelineDivisionSeconds * 1000) {
             //if it is, find exact position and break
-            pixelsOffsetRelativeLine = (danceMove.epochMs - start_time - label * 1000) * 50 / 1000
+            pixelsOffsetRelativeLine = (danceMove.epochMs - start_time - label *
+                1000 * TimelineDivisionSeconds) * TimelineDivisionHeight / 1000 * TimelineDivisionSeconds
             finalDanceMove = danceMove
             break
         }
     }
 
     return (
-        <div className={"line" + (props.timelineState ? " move" : "")} style={{ bottom: props.bottom }}>
+        <div className={"line" + (props.timelineState ? " move" : "")}
+            style={{
+                bottom: props.bottom,
+                marginBottom: String(TimelineDivisionHeight - 20) + "px"
+            }}>
             <div className="line-label"> {sToTime(label)} </div>
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
@@ -123,7 +128,8 @@ function sToTime(duration) {
 export default function Timeline(props) {
     return (
         <div className="timeline"
-            style={{ height: 300 }}>
+            style={{ height: TimelineHeight }}
+        >
             <Lines timeLabel={props.timeLabels} stream={props.stream} timelineState={props.timelineState} />
         </div>
     )

@@ -12,7 +12,7 @@ export default function PreliminaryAnalysis(props) {
     const [PositionCorrect, setCorrectPosition] = useState([0, 0])
     const [UserData, setUserData] = useState([])
     const { user1, user2, user3 } = props.account
-    const { CurrentSessionData, setCurrentSessionData } = props
+    const { CurrentSessionData, setCurrentSessionData, sessionName } = props
 
     useEffect(() => {
         var updatedUserData = [{}, {}, {}]
@@ -61,7 +61,7 @@ export default function PreliminaryAnalysis(props) {
     const AnalyticsPreview = () => {
         const [collapseEvaluator, setCollapseEvaluator] = useState(false)
         return (
-            <div className="analytics-preview" style={{ height: collapseEvaluator ? "60px" : "670px" }}>
+            <div className="analytics-preview" style={{ height: collapseEvaluator ? "35px" : "630px" }}>
                 <h1>Analytics Preview
                     <div className="btn-container" >
                         <button className="expand-collapse" onClick={() => setCollapseEvaluator(c => !c)}>
@@ -101,7 +101,8 @@ export default function PreliminaryAnalysis(props) {
                     setPositionDataPreview={setCorrectPosition}
                     setCurrentSessionData={setCurrentSessionData}
                     data={CurrentSessionData}
-                    key={CurrentSessionData} />
+                    key={CurrentSessionData}
+                    sessionName={sessionName} />
                 <AnalyticsPreview />
             </div>
         </div>

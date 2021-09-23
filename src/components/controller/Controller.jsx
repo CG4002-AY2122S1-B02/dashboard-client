@@ -6,13 +6,13 @@ import StopIcon from '@mui/icons-material/Stop';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 
-const SessionNameField = () => {
+const SessionNameField = (props) => {
     return (
         <div className="session-name-field">
             <EditIcon fontSize="inherit" />
             <div className="scrolling-session">
                 &nbsp;
-                <input type="text" placeholder="Session 1 (4:00pm 6/10/21)" />
+                <input type="text" placeholder="Input Session Name" onChange={e => props.setSessionName(e.target.value)} />
             </div>
         </div>
     )
@@ -54,7 +54,7 @@ export default function Controller(props) {
     return (
         <div className="controller">
             <div className="container">
-                <SessionNameField />
+                <SessionNameField setSessionName={props.setSessionName} />
                 <div className="button-tabs">
                     <UserPageIcon />
                     <DancePageIcon toggleDance={props.toggleDance} dancing={props.dancing} />

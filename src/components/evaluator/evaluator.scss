@@ -8,10 +8,9 @@
     max-width: 1000px;
     min-width: 800px;
     position: relative;
-    padding: 30px;
+    padding: 10px 30px;
     border-radius: 20px;
     box-shadow: 0 0 13px pink;
-    padding-top: 10px;
     transition: 0.2s ease;
 
     
@@ -20,7 +19,7 @@
         width: 100%;
         text-align: center;
         margin: 0;
-        font-size: $large_content_size;
+        font-size: $medium_content_size;
         color: $button_color;
         display: flex;
         align-items: end;

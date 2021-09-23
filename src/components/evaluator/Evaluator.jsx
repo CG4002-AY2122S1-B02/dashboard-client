@@ -191,7 +191,7 @@ const TrueDataAutocomplete = (props) => {
                                 isPosition={props.isPosition} {...getTagProps({ index })} />
                         ))
                     }
-                    style={{ width: String(props.maxLength * 125 + 300) + "px", color: "white" }}
+                    style={{ width: String(props.tags.length * 125 + 300) + "px", color: "white" }}
                     renderInput={(params) => (
                         <TextField {...params}
                             variant="outlined" placeholder={"Input " + props.placeholder} />
@@ -225,7 +225,7 @@ const EvaluatorUnit = (props) => {
 
 export default function Evaluator(props) {
     const { user1, user2, user3, master } = props.account
-    const { setDataPreview, setPositionDataPreview, setCurrentSessionData, data } = props
+    const { setDataPreview, setPositionDataPreview, setCurrentSessionData, data, sessionName } = props
     const [returnPosition, setReturnPosition] = useState(data.position)
     const [TruePosition, setTruePosition] = useState([])
     const [returnUser1, setReturnUser1] = useState(data.user_1)
@@ -245,7 +245,7 @@ export default function Evaluator(props) {
     const UploadSession = () => {
         const payload = {
             "session_timestamp": Date.now(),
-            "session_name": "xxx",
+            "session_name": sessionName,
             "account_name": master,
             "username_1": user1,
             "username_2": user2,
@@ -339,17 +339,15 @@ export default function Evaluator(props) {
 
     return (
         <div className="evaluator"
-            style={{ height: collapseEvaluator ? "60px" : "740px" }}
+            style={{ height: collapseEvaluator ? "55px" : "720px" }}
         >
-            <h1>Evaluator
+            <h1>Evaluate '{sessionName}'
                 <div className="btn-container" >
                     <button className="expand-collapse" onClick={() => setCollapseEvaluator(c => !c)}>
                         {collapseEvaluator ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                     </button>
                 </div>
             </h1>
-
-
 
             <div className="main-container">
                 <div className="review">

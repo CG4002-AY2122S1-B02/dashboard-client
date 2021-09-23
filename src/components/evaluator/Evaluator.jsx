@@ -69,6 +69,10 @@ const validateReturn = (trueList, returnList, setReturnList, key) => {
 const ReadDataRow = (props) => {
     const { dataList, isPosition, setIndexOrAdd, id } = props
 
+    if (dataList == null) {
+        return <div></div>
+    }
+
     return (
         <div className="chip-list">
             {dataList.map((move, index) => {
@@ -215,7 +219,7 @@ const EvaluatorUnit = (props) => {
                 fixedOptions={[]}
                 tags={trueList}
                 setTags={limitSetGenerator(setTrue, returnList, setReturn, key)}
-                maxLength={returnList.length}
+                maxLength={returnList == null ? 0 : returnList.length}
                 isPosition={isPosition}
                 placeholder={placeholder}
             />
@@ -225,7 +229,7 @@ const EvaluatorUnit = (props) => {
 
 export default function Evaluator(props) {
     const { user1, user2, user3, master } = props.account
-    const { setDataPreview, setPositionDataPreview, setCurrentSessionData, data, sessionName } = props
+    const { setDataPreview, setPositionDataPreview, setCurrentSessionData, data, sessionName, setSessionName } = props
     const [returnPosition, setReturnPosition] = useState(data.position)
     const [TruePosition, setTruePosition] = useState([])
     const [returnUser1, setReturnUser1] = useState(data.user_1)
@@ -235,9 +239,10 @@ export default function Evaluator(props) {
     const [returnUser3, setReturnUser3] = useState(data.user_3)
     const [trueUser3, setTrueUser3] = useState([])
 
-    const longestUserLength = returnUser1.length > returnUser2.length ?
-        (returnUser1.length > returnUser3.length ? returnUser1.length : returnUser3.length) :
-        (returnUser2.length > returnUser3.length ? returnUser2.length : returnUser3.length)
+    const longestUserLength = (returnUser1 == null || returnUser2 == null || returnUser3 == null || returnPosition == null ?
+        0 : (returnUser1.length > returnUser2.length ?
+            (returnUser1.length > returnUser3.length ? returnUser1.length : returnUser3.length) :
+            (returnUser2.length > returnUser3.length ? returnUser2.length : returnUser3.length)))
 
     const [ShowLabels, setShowLabels] = useState(false)
     const [collapseEvaluator, setCollapseEvaluator] = useState(false)
@@ -288,7 +293,7 @@ export default function Evaluator(props) {
 
     useEffect(() => {
         var previewDataUser = [0, 0, 0, 0]
-        previewDataUser[0] = returnUser1.length
+        previewDataUser[0] = returnUser1 == null ? 0 : returnUser1.length
 
         for (let i = 0; i < previewDataUser[0]; i++) {
             if (returnUser1[i].end !== "correct") continue
@@ -305,7 +310,7 @@ export default function Evaluator(props) {
 
     useEffect(() => {
         var previewDataUser = [0, 0, 0, 0]
-        previewDataUser[0] = returnUser2.length
+        previewDataUser[0] = returnUser2 == null ? 0 : returnUser2.length
 
         for (let i = 0; i < previewDataUser[0]; i++) {
             if (returnUser2[i].end !== "correct") continue
@@ -322,7 +327,7 @@ export default function Evaluator(props) {
 
     useEffect(() => {
         var previewDataUser = [0, 0, 0, 0]
-        previewDataUser[0] = returnUser3.length
+        previewDataUser[0] = returnUser3 == null ? 0 : returnUser3.length
 
         for (let i = 0; i < previewDataUser[0]; i++) {
             if (returnUser3[i].end !== "correct") continue
@@ -432,7 +437,7 @@ export default function Evaluator(props) {
                 </div>
 
                 <div className="evaluator-options">
-                    <button onClick={() => { setCurrentSessionData(emptySessionData) }}><DeleteIcon /> &nbsp; DISCARD</button>
+                    <button onClick={() => { setCurrentSessionData(emptySessionData); setSessionName("*") }}><DeleteIcon /> &nbsp; DISCARD</button>
                     <button onClick={() => { UploadSession(); setCurrentSessionData(emptySessionData); }}><CloudUploadIcon /> &nbsp; UPLOAD</button>
                 </div>
             </div>

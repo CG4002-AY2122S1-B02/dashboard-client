@@ -12,7 +12,7 @@ const SessionNameField = (props) => {
             <EditIcon fontSize="inherit" />
             <div className="scrolling-session">
                 &nbsp;
-                <input type="text" placeholder="Input Session Name" onChange={e => props.setSessionName(e.target.value)} />
+                <input type="text" placeholder="Input Session Name ('*' for default)" onChange={e => props.setSessionName(e.target.value)} value={props.sessionName} />
             </div>
         </div>
     )
@@ -51,10 +51,12 @@ const OfflinePageIcon = () => {
 }
 
 export default function Controller(props) {
+    const { setSessionName, sessionName } = props
+
     return (
         <div className="controller">
             <div className="container">
-                <SessionNameField setSessionName={props.setSessionName} />
+                <SessionNameField setSessionName={setSessionName} sessionName={sessionName} />
                 <div className="button-tabs">
                     <UserPageIcon />
                     <DancePageIcon toggleDance={props.toggleDance} dancing={props.dancing} />

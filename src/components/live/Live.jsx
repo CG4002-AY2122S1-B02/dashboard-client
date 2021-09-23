@@ -67,7 +67,17 @@ export default function Live(props) {
     const [timelineState, setTimelineState] = useState(false)
     const [TimeLabels, setTimeLabels] = useState(generateList()) //13
     const [CurrentSessionData, setCurrentSessionData] = useState(emptySessionData)
-    const [sessionName, setSessionName] = useState("Our Great Dance Session")
+    const [sessionName, setSessionNameX] = useState("~session " + new Date(Date.now()).toLocaleString())
+
+    const CurrentSessionEmpty = CurrentSessionData.user_1 == null && CurrentSessionData.user_2 == null && CurrentSessionData.user_3 == null
+
+    const setSessionName = (value) => {
+        if (value !== "*") {
+            setSessionNameX(value)
+        } else {
+            setSessionNameX("~session " + new Date(Date.now()).toLocaleString())
+        }
+    }
 
     useEffect(() => {
         const interval = setInterval(() => unitTime(), TimelineUpdateInterval);
@@ -148,9 +158,13 @@ export default function Live(props) {
                     }
                 })
                 setCurrentSessionData(emptySessionData)
+            } else {
+                //start
+
+                if (sessionName.slice(0, 9) === "~session ") {
+                    setSessionName("*")
+                }
             }
-
-
             //stop / start the css animation, refresh
         })
     }
@@ -161,10 +175,10 @@ export default function Live(props) {
 
     return (
         <div className="live">
-            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionData.empty === true} />
-            <Controller toggleDance={handleSubmit} dancing={!timelineState} setSessionName={setSessionName} />
-            {CurrentSessionData.empty === true ? <div></div> :
-                <PreliminaryAnalysis account={props.account} sessionName={sessionName}
+            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty} />
+            <Controller toggleDance={handleSubmit} dancing={!timelineState} sessionName={sessionName} setSessionName={setSessionName} />
+            {CurrentSessionEmpty ? <div></div> :
+                <PreliminaryAnalysis account={props.account} sessionName={sessionName} setSessionName={setSessionName}
                     setCurrentSessionData={setCurrentSessionData} CurrentSessionData={CurrentSessionData} />
             }
         </div>

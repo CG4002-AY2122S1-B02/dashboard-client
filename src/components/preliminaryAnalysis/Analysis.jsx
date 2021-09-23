@@ -12,7 +12,7 @@ export default function PreliminaryAnalysis(props) {
     const [PositionCorrect, setCorrectPosition] = useState([0, 0])
     const [UserData, setUserData] = useState([])
     const { user1, user2, user3 } = props.account
-    const { CurrentSessionData, setCurrentSessionData, sessionName } = props
+    const { CurrentSessionData, setCurrentSessionData, sessionName, setSessionName } = props
 
     useEffect(() => {
         var updatedUserData = [{}, {}, {}]
@@ -93,7 +93,6 @@ export default function PreliminaryAnalysis(props) {
 
     return (
         <div className="preliminary-analysis"
-        // style={{ display: CurrentSessionData.empty === true ? "none" : "block" }}
         >
             <div className="scrollable">
                 <Evaluator account={props.account}
@@ -102,7 +101,8 @@ export default function PreliminaryAnalysis(props) {
                     setCurrentSessionData={setCurrentSessionData}
                     data={CurrentSessionData}
                     key={CurrentSessionData}
-                    sessionName={sessionName} />
+                    sessionName={sessionName}
+                    setSessionName={setSessionName} />
                 <AnalyticsPreview />
             </div>
         </div>

@@ -1,8 +1,8 @@
 export const emptySessionData = {
     position: [],
-    user_1: [],
-    user_2: [],
-    user_3: [],
+    user_1: null,
+    user_2: null,
+    user_3: null,
     empty: true
 }
 

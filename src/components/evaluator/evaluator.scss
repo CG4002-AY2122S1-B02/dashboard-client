@@ -223,10 +223,12 @@
         }
 
         .autocomplete-field{
-            position: absolute;
-            right: 0;
-            top: 0;
             position: relative;
+            display: flex;
+
+            button {
+                margin-left: 10px;
+            }
         }
     }
 

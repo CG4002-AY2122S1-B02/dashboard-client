@@ -13,14 +13,77 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { emptySessionData, PathUploadSession } from '../../config'
 
 const danceOptions = ["Push Back", "Dab", "Snake", "Window360", "James Bond", "Cowboy", "Mermaid", "Scarecrow", "WRONG"]
 const positionOptions = ["123", "132", "213", "231", "312", "321", "WRONG"]
 
+
+export const UseAutocompleteStyles = makeStyles((theme) => ({
+    root: {
+        "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
+            transform: "translate(34px, 20px) scale(1);"
+        },
+    },
+    inputRoot: {
+        color: "white",
+
+        fontSize: "inherit",
+        '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+            paddingLeft: 26
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white"
+        },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white"
+        },
+        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#DF5796"
+        }
+    },
+    paper: {
+
+        background: "#212",
+        color: "white",
+    },
+    option: {
+
+        // Hover with light-grey
+        '&[data-focus="true"]': {
+            backgroundColor: '#DF5796',
+            borderColor: 'transparent',
+        },
+        // Selected has dark-grey
+        '&[aria-selected="true"]': {
+            backgroundColor: "#DF0252",
+            borderColor: 'transparent',
+        },
+    },
+    clearIndicator: {
+        color: "white",
+        fontSize: "inherit",
+    },
+    popupIndicator: {
+        color: "white",
+        fontSize: "inherit",
+    },
+    tag: {
+        fontSize: "inherit",
+        width: "124px"
+    }
+}));
+
 //this method generator is for autocomplete
 const limitSetGenerator = (setTrue, returnList, setReturnList, key) => {
     const limitedSetMethod = (values) => {
+        // if (values.length === 0) {
+        //     //make all correct
+        //     setTrue(values)
+        //     invalidateReturn(returnList, setReturnList)
+        // } else
+
         if (values.length <= returnList.length) {
             setTrue(values)
             validateReturn(values, returnList, setReturnList, key)
@@ -28,6 +91,17 @@ const limitSetGenerator = (setTrue, returnList, setReturnList, key) => {
     }
 
     return limitedSetMethod
+}
+
+const allCorrectGenerator = (setTrue, returnList, setReturnList, key) => {
+
+    const allCorrect = () => {
+        const values = returnList.map(a => a[key])
+        setTrue(values)
+        validateReturn(values, returnList, setReturnList, key)
+    }
+
+    return allCorrect
 }
 
 //this method generator is for read data of returned value
@@ -65,6 +139,17 @@ const validateReturn = (trueList, returnList, setReturnList, key) => {
 
     setReturnList(a => [...updatedObjList, ...a.slice(updatedObjList.length)])
 }
+
+// const invalidateReturn = (returnList, setReturnList) => {
+//     var updatedObjList = [] //carries updated return value size of truelist
+//     for (let i = 0; i < returnList.length; i++) {
+//         var updatedObj = returnList[i]
+//         updatedObj.end = "correct"
+//         updatedObjList.push(updatedObj)
+//     }
+
+//     setReturnList(updatedObjList)
+// }
 
 const ReadDataRow = (props) => {
     const { dataList, isPosition, setIndexOrAdd, id } = props
@@ -112,62 +197,7 @@ const TrueDataAutocomplete = (props) => {
         )
     }
 
-    const useAutocompleteStyles = makeStyles((theme) => ({
-        root: {
-            "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
-                transform: "translate(34px, 20px) scale(1);"
-            },
-        },
-        inputRoot: {
-            color: "white",
-
-            fontSize: "inherit",
-            '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
-                paddingLeft: 26
-            },
-            "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "white"
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "white"
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#DF5796"
-            }
-        },
-        paper: {
-
-            background: "#212",
-            color: "white",
-        },
-        option: {
-
-            // Hover with light-grey
-            '&[data-focus="true"]': {
-                backgroundColor: '#DF5796',
-                borderColor: 'transparent',
-            },
-            // Selected has dark-grey
-            '&[aria-selected="true"]': {
-                backgroundColor: "#DF0252",
-                borderColor: 'transparent',
-            },
-        },
-        clearIndicator: {
-            color: "white",
-            fontSize: "inherit",
-        },
-        popupIndicator: {
-            color: "white",
-            fontSize: "inherit",
-        },
-        tag: {
-            fontSize: "inherit",
-            width: "124px"
-        }
-    }));
-
-    const classes = useAutocompleteStyles();
+    const classes = UseAutocompleteStyles();
 
     return (
         <div className="chip-list autocomplete"
@@ -200,7 +230,7 @@ const TrueDataAutocomplete = (props) => {
                         <TextField {...params}
                             variant="outlined" placeholder={"Input " + props.placeholder} />
                     )}
-                />
+                /> <button onClick={() => props.allCorrect()}><DoneAllIcon /></button>
             </div>
         </div>
     )
@@ -222,6 +252,7 @@ const EvaluatorUnit = (props) => {
                 maxLength={returnList == null ? 0 : returnList.length}
                 isPosition={isPosition}
                 placeholder={placeholder}
+                allCorrect={allCorrectGenerator(setTrue, returnList, setReturn, key)}
             />
         </div>
     )
@@ -270,12 +301,10 @@ export default function Evaluator(props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         }).then((r) => {
-            console.log(payload)
+            // console.log(payload)
 
             if (r.status === 200) {
-                console.log(r)
             } else {
-                console.log(r)
             }
         })
     }

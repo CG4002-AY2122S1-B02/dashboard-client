@@ -5,6 +5,7 @@ import UserCard from '../usercard/UserCard';
 import Controller from "../controller/Controller";
 import Error from "../error/Error";
 import PreliminaryAnalysis from "../preliminaryAnalysis/Analysis";
+import { useTimer } from "react-use-precision-timer";
 // import window from "../../utils";
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
@@ -79,36 +80,14 @@ export default function Live(props) {
         }
     }
 
-    useEffect(() => {
-        const interval = setInterval(() => unitTime(), TimelineUpdateInterval);
-        return () => {
-            clearInterval(interval);
-        };
-    });
+    const timer = useTimer({ delay: TimelineUpdateInterval, callback: () => unitTime() });
 
-    //optimise this instead of buffering the lag
     const unitTime = () => {
         if (!timelineState) return
         setTimerUnitTime(t => (t + 1))
         const newTimeLabels = TimeLabels.map((value) => value < TimerUnitTime * TimelineDivisionsUnitUpdate &&
             value >= TimerUnitTime * TimelineDivisionsUnitUpdate - TimelineDivisionsUnitUpdate ? value + TimelineDivisionsInView * 2 : value)
         setTimeLabels(newTimeLabels)
-
-        //Trying to optimise__________________________________________
-
-        // const startIndex = ((TimerUnitTime + 1) % 6) * 3
-        // const newTimeLabels = TimeLabels
-        // newTimeLabels[startIndex] += 12
-        // newTimeLabels[startIndex + 1] += 12
-        // newTimeLabels[startIndex + 2] += 12
-        // setTimeLabels(newTimeLabels)
-
-        // setTimeLabels(tls => [...tls.slice(0, startIndex),
-        // tls[startIndex] + 12,
-        // tls[startIndex + 1] + 12,
-        // tls[startIndex + 2] + 12,
-        // ...tls.slice(startIndex + 3)
-        // ])
     }
     //_____________________________________________________
 
@@ -117,10 +96,13 @@ export default function Live(props) {
             setTimelineState(true)
             setTimerUnitTime(-1)
             setTimeLabels(generateList())
+            timer.start();
+
         } else {
             setTimelineState(false)
             setTimerUnitTime(-1)
             setTimeLabels(generateList())
+            timer.stop();
         }
         const payload = {
             start: !timelineState,

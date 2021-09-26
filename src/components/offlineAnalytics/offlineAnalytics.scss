@@ -1,0 +1,49 @@
+@import '../../global.scss';
+
+.offline-analytics{
+    .panel{
+        background: $faint_background;
+        padding: 15px;
+        border-radius: 15px;
+        transition: 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+        margin: 15px;
+
+        h1{
+            font-weight: 400;
+            display: flex;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            font-size: $medium_content_size;
+            color: $button_color;
+            align-items: end;
+            justify-content: center;
+            margin-bottom: 15px;
+
+            .btn-container{
+                margin-left: 10px;
+                margin-bottom: 5px;
+    
+                button{
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+
+        &.hide{
+            height: 50px;
+        }
+
+        .component{
+            margin: 0;
+            color: $content_color;
+        }
+    }
+}

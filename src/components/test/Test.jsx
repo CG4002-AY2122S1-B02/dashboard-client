@@ -1,12 +1,11 @@
 import './test.scss'
-import OfflineAnalytics from '../offlineAnalytics/OfflineAnalytics';
 
 export default function Test(props) {
-    const account = { user1: "Jerry", user2: "Michael", user3: "Sanath" }
+    // const account = { user1: "Josh", user2: "Michael", user3: "Sanath", master: "CG4002" }
 
     return (
         <div className="test">
-            <OfflineAnalytics account={account} />
+
         </div>
     );
 }

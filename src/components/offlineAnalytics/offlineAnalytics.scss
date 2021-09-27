@@ -1,8 +1,32 @@
 @import '../../global.scss';
 
+
 .offline-analytics{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .controls {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        max-width: 1150px;
+
+
+        button{
+
+            &.back{
+
+                position: absolute;
+                left: 0;
+                top: 10px;
+            }
+        }
+    }
+
     .panel{
-        background: $faint_background;
+        background: $panel_background;
         padding: 15px;
         border-radius: 15px;
         transition: 0.3s ease;
@@ -13,6 +37,8 @@
         overflow: hidden;
         backdrop-filter: blur(4px);
         margin: 15px;
+        width: 100%;
+        max-width: 1150px;
 
         h1{
             font-weight: 400;
@@ -46,4 +72,108 @@
             color: $content_color;
         }
     }
+}
+
+.offline-chart {
+    background: $chart_background;
+    border-radius: 15px;
+    // overflow-x: hidden;
+    width: 330px;
+    margin: 10px;
+    height: fit-content;
+    padding: 10px;
+    // background: black;
+    // padding: 15px 25px;
+    // border: 1px solid white;
+    // margin-top: -80px;
+    position: relative;
+
+    &.w3{
+        width: 1080px;
+    }
+
+    &.w2{
+        width: 660px;
+    }
+
+    .value{
+        display: flex;
+        height: 237px;
+        padding: 10px 0 ;
+        width: 100%;
+        justify-content: center;
+        overflow: hidden;
+        flex-direction: column;
+
+        &.sync-delay{
+            color: $series-8;
+        }
+
+        &.duration{
+            color: $faint_purple;
+        }
+
+        &.sessions{
+            color: $button_color;
+        }
+
+        h3{
+            font-size: 80px;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        h5{
+            margin: 0;
+            font-size: 20px;
+            color: $content_color;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .dance-buddies {
+            color: $button_color;
+            width: 100%;
+            font-size: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+    
+            .buddy {
+                white-space: nowrap;
+                padding: 10px;
+                background: $series-d;
+                border-radius: 10px;
+                margin: 6px;
+                text-align: center;
+            }
+        }
+    }
+    
+
+    h2{
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        text-align: center;
+        // margin-left: 110px;
+    }
+
+    
+}
+
+.autocomplete-preset{
+    h2{
+        margin-right: 10px;
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    display: flex;
+    margin: 0 15px;
+    align-items: center;
+    padding: 7px;
+    border-radius: 15px;
+    // background: $panel_background;
 }

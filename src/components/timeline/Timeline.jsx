@@ -100,7 +100,7 @@ const Line = (props) => {
                 bottom: props.bottom,
                 marginBottom: String(TimelineDivisionHeight - 20) + "px"
             }}>
-            <div className="line-label"> {sToTime(label)} </div>
+            <div className="line-label"> {SecToTime(label, false)} </div>
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
                 <Dance name={finalDanceMove.name}
@@ -110,7 +110,7 @@ const Line = (props) => {
     )
 }
 
-function sToTime(duration) {
+export function SecToTime(duration, spacing) {
     if (duration < 0) {
         return "-"
     }
@@ -120,7 +120,11 @@ function sToTime(duration) {
         hours = Math.floor((duration / (60 * 60)) % 24);
 
     hours = (hours === 0) ? "" : hours + "h";
-    minutes = (hours === 0 && minutes === 0) ? "" : (minutes + "m");
+    minutes = (hours === "" && minutes === 0) ? "" : (minutes + "m");
+
+    if (spacing) {
+        return hours + " " + minutes + " " + seconds + "s";
+    }
 
     return hours + minutes + seconds + "s";
 }

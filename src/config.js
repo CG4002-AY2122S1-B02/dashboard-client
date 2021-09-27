@@ -30,3 +30,7 @@ export const PathCreateUsers = HTTP + DashboardServerPath + "account/users/regis
 //session api
 export const PathUploadSession = HTTP + DashboardServerPath + "session/upload"
 export const PathGetCurrentSession = HTTP + DashboardServerPath + "session/current"
+
+//dance api
+export const PathDanceOverview = HTTP + DashboardServerPath + "dance/overview"
+export const PathDanceProgress = HTTP + DashboardServerPath + "dance/progress"

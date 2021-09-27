@@ -6,6 +6,7 @@ import Controller from "../controller/Controller";
 import Error from "../error/Error";
 import PreliminaryAnalysis from "../preliminaryAnalysis/Analysis";
 import { useTimer } from "react-use-precision-timer";
+import Video from "../videoBg/Video";
 // import window from "../../utils";
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
@@ -157,6 +158,7 @@ export default function Live(props) {
 
     return (
         <div className="live">
+            <Video colorHex="#120011" source="spotlights" />
             <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty} />
             <Controller toggleDance={handleSubmit} dancing={!timelineState} sessionName={sessionName} setSessionName={setSessionName} />
             {CurrentSessionEmpty ? <div></div> :

@@ -9,6 +9,7 @@ import Account from './components/account/Account';
 import { useState } from 'react';
 import { PathLogin, PathCreateUsers } from './config';
 import Test from './components/test/Test';
+import OfflineAnalytics from './components/offlineAnalytics/OfflineAnalytics';
 
 function App() {
   const [account, setAccount] = useState({
@@ -94,6 +95,9 @@ function App() {
           </Route>
           <Route path="/test">
             <Test account={account} />
+          </Route>
+          <Route path="/offline">
+            <OfflineAnalytics account={account} />
           </Route>
           <Route path="/">
             <Live account={account} />

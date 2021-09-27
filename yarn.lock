@@ -9976,6 +9976,11 @@ react-use@^17.3.1:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
+react-youtube-background@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-youtube-background/-/react-youtube-background-1.0.0.tgz#b9bd4cbc425fdc74c80496f99b0a5b4fb7086814"
+  integrity sha512-EEnpEyPAjUIMi1QJM620r6NdBDHuC7Dg12/B3L8m0mA1hqYDCLOdEq0rjbk9demX7bVXQAU5zuRQ0MXpWoFY+w==
+
 react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz"

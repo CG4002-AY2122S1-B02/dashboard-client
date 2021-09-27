@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const SessionNameField = (props) => {
     return (
-        <div className="session-name-field">
+        <div className="session-name-field" style={{ display: "none" }}>
             <EditIcon fontSize="inherit" />
             <div className="scrolling-session">
                 &nbsp;
@@ -45,7 +45,9 @@ const OfflinePageIcon = () => {
     //have a timeout feature when in dance so auto see session data*
     return (
         <div className="offline-page-icon">
-            < TimelineIcon fontSize="inherit" />
+            <Link to="/offline">
+                < TimelineIcon fontSize="inherit" />
+            </Link>
         </div>
     )
 }

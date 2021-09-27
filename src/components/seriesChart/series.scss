@@ -1,0 +1,17 @@
+@import '../../global.scss';
+
+.series{
+    width: 100%;
+    height: 450px;
+
+    .chart{
+        height: 450px;
+    }
+
+    h2{
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        // margin-left: 110px;
+    }
+}

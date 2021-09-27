@@ -39,11 +39,11 @@ export default function PreliminaryAnalysis(props) {
 
     const AggregatedData = [{
         "kind": "WRONG", "share": (TotalData - TotalCorrect) / TotalData
-    }, {
+    }, {}, {}, {}, {
         "kind": "CORRECT", "share": TotalCorrect / TotalData
     }]
 
-    const PositionData = [{
+    const PositionData = [{}, {}, {}, {}, {}, {
         "kind": "WRONG", "share": (PositionCorrect[0] - PositionCorrect[1]) / PositionCorrect[0]
     }, {
         "kind": "CORRECT", "share": PositionCorrect[1] / PositionCorrect[0]

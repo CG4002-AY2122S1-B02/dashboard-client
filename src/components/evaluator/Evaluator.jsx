@@ -225,7 +225,7 @@ const TrueDataAutocomplete = (props) => {
                                 isPosition={props.isPosition} {...getTagProps({ index })} />
                         ))
                     }
-                    style={{ width: String(props.tags.length * 125 + 300) + "px", color: "white" }}
+                    style={{ width: String(props.tags.length * 125 + 450) + "px", color: "white" }}
                     renderInput={(params) => (
                         <TextField {...params}
                             variant="outlined" placeholder={"Input " + props.placeholder} />

@@ -37,6 +37,10 @@ const Lines = (props) => {
                 "accuracy": danceMove[2]
             })
         }
+
+        return () => {
+            socket.close();
+        };
     }, [props.stream])
 
     useEffect(() => {

@@ -91,18 +91,18 @@ function App() {
           <Route path="/account">
             <Account account={account} operations={accountOperations} />
           </Route>
-          <Route path="/analytics">
-          </Route>
           <Route path="/test">
             <Test account={account} />
           </Route>
           <Route path="/offline">
-            <OfflineAnalytics account={account} />
+            <div className="scroll">
+              <OfflineAnalytics account={account} />
+            </div>
           </Route>
           <Route path="/">
-            <Live account={account} />
           </Route>
         </Switch>
+        <Live account={account} />
       </Router>
     </div>
   )

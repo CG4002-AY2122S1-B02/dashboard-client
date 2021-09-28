@@ -1,6 +1,11 @@
 @import '../../global.scss';
 
 .live {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+
   .user-cards{
     margin: 0 auto;
     max-width: 1500px;

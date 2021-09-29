@@ -15,6 +15,7 @@ const HTTP = "http://"
 //stream api
 export const PathStreamAll = "ws://" + DashboardServerPath + "stream/ws/"
 export const PathPositionStream = "ws://" + DashboardServerPath + "stream/position"
+export const PathGroupSyncDelayStream = "ws://" + DashboardServerPath + "stream/sync"
 export const PathStreamCommand = HTTP + DashboardServerPath + "stream/command"
 
 //attributes

@@ -1,26 +1,103 @@
 @import '../../global.scss';
 
+@mixin animate($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}
+
+@mixin stay() {
+    animation-fill-mode: forwards;
+}
+
+@mixin keyframes($name){
+    @keyframes #{$name}{
+        @content;
+    }
+}
+
 .controller{
-    height: 60px;
+    height: 40px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     // position: relative;
     position: fixed;
-    bottom: 50px;
+    padding-bottom: 5px;
+    bottom: 0;
 
     .container{
-        width: 300px;
-        border-radius: 50px;
+        width: 100%;
         padding: 10px;
         height: 100%;
         display: flex;
-        flex-direction: column;
-        background: rgba(54, 40, 42, 0.712);
+        background: rgba(36, 126, 243, 0.15);
         box-shadow: 0 -4px 13px pink;
         position: relative;
         overflow: hidden;
+        justify-content: space-between;
+
+        @include keyframes(colorshift){
+            0%{
+                filter: hue-rotate(0deg);
+            }
+            50%{
+                filter: hue-rotate(90deg);
+            }
+            100%{
+                filter: hue-rotate(0deg);
+            }
+        }
+        @include animate(colorshift, 10s, linear, infinite);
+
+        .global-stats{
+            font-size: 20px;
+            display: flex;
+
+            .sync-delay{
+                margin-left: 10px;
+                margin-right: 15px;
+                display: flex;
+
+                .delay{
+                    margin-left: 10px;
+                    margin-top: 3px;
+                    @include keyframes(fade){
+                        0%{
+                            opacity: 1;
+                        }
+                        100%{
+                            opacity: 0.4;
+                        }
+                    }
+                    @include animate(fade, 2s, linear, 1);
+                    @include stay();
+                }
+            }
+
+            .leaderboard {
+                display: flex;
+                margin-left: 20px;
+
+                    .content{
+                        margin-left: 10px;
+                        margin-top: 3px;
+                    }
+
+            }
+        }
+
+        .logo{
+            height: 38px;
+            position: absolute;
+            left: calc(50% - 50px);
+            filter: grayscale(100%) brightness(200%);
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
         
         .session-name-field{
             display: flex;
@@ -54,6 +131,7 @@
             margin: 0 10px;
             
             div{
+                margin: 25px;
                 &:hover{
                     color: rgb(255, 109, 133);
                     cursor: pointer;
@@ -73,4 +151,10 @@
             }
         }
     }
+}
+
+.separator-vert{
+    height: 85%;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.459);
 }

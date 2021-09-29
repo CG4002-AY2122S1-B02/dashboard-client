@@ -81,7 +81,7 @@ const DonutDisplay = (props) => (
 
 const SeriesDisplay = (props) => (
     <div className="offline-chart w3">
-        <Series title={props.header} data={props.data} mode={props.mode} />
+        <Series title={props.header} data={props.data} mode={props.mode} baseUnit={props.baseUnit} />
 
     </div>
 )
@@ -149,8 +149,10 @@ export default function OfflineAnalytics(props) {
     const [range, setRange] = useState(rangeOptions["all time"])
     const [Overview, setOverview] = useState(null)
     const [Progress, setProgress] = useState(null)
+    const [BaseUnit, setBaseUnit] = useState("sessions")
     const [ProgressMode, setProgressMode] = useState("Dance Move Accuracy")
     const ProgressModeOptions = ["Dance Move Accuracy", "Dance Move Correctness", "Position Correctness", "Avg Group Sync Delay (ms)"]
+    const BaseUnitOptions = ["sessions", "hours", "days", "months", "years"]
 
     const setDisplayRange = (value) => {
         setRange(rangeOptions[value])
@@ -278,15 +280,25 @@ export default function OfflineAnalytics(props) {
                 <Panel header="Progress Report"
                     PanelCompopnent={() => (
                         <div className="col">
+                            <div className="row">
+                                <AutocompletePreset
+                                    options={ProgressModeOptions}
+                                    placeholder="Select Progress Mode"
+                                    setValue={setProgressMode}
+                                    value={ProgressMode}
+                                    field="Metric"
+                                />
 
-                            <AutocompletePreset
-                                options={ProgressModeOptions}
-                                placeholder="Select Progress Mode"
-                                setValue={setProgressMode}
-                                value={ProgressMode}
-                                field="Metric"
-                            />
-                            <SeriesDisplay header="" data={Progress} mode={ProgressMode} />
+                                <AutocompletePreset
+                                    options={BaseUnitOptions}
+                                    placeholder="Select Base Unit"
+                                    setValue={setBaseUnit}
+                                    value={BaseUnit}
+                                    field="Unit"
+                                />
+                            </div>
+
+                            <SeriesDisplay header="" data={Progress} mode={ProgressMode} baseUnit={BaseUnit} />
                         </div>
                     )} />
             }

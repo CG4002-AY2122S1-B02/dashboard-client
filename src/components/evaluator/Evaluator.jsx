@@ -14,6 +14,10 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
+import EditLocationIcon from '@mui/icons-material/EditLocation';
+import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import { emptySessionData, PathUploadSession } from '../../config'
 
 const danceOptions = ["Push Back", "Dab", "Snake", "Window360", "James Bond", "Cowboy", "Mermaid", "Scarecrow", "WRONG"]
@@ -28,17 +32,18 @@ export const UseAutocompleteStyles = makeStyles((theme) => ({
     },
     inputRoot: {
         color: "white",
+        background: "rgba(87, 0, 29, 0.5)",
 
         fontSize: "inherit",
         '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
             paddingLeft: 26
         },
-        "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
-        "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white"
-        },
+        // "& .MuiOutlinedInput-notchedOutline": {
+        //     borderColor: "white"
+        // },
+        // "&:hover .MuiOutlinedInput-notchedOutline": {
+        //     borderColor: "white"
+        // },
         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "#DF5796"
         }
@@ -225,7 +230,7 @@ const TrueDataAutocomplete = (props) => {
                                 isPosition={props.isPosition} {...getTagProps({ index })} />
                         ))
                     }
-                    style={{ width: String(props.tags.length * 125 + 450) + "px", color: "white" }}
+                    style={{ width: String(props.tags.length * 131 + 270) + "px", color: "white" }}
                     renderInput={(params) => (
                         <TextField {...params}
                             variant="outlined" placeholder={"Input " + props.placeholder} />
@@ -373,7 +378,7 @@ export default function Evaluator(props) {
 
     return (
         <div className="evaluator"
-            style={{ height: collapseEvaluator ? "55px" : "720px" }}
+            style={{ height: collapseEvaluator ? "55px" : "800px" }}
         >
             <h1>Evaluate '{sessionName}'
                 <div className="btn-container" >
@@ -389,24 +394,21 @@ export default function Evaluator(props) {
                         <h2> &nbsp; </h2>
                         <div className="space-23"></div>
 
-                        <h2>{user1}~1:&nbsp;</h2>
+                        <h2>{user1} <PersonIcon fontSize="medium" />1&nbsp;</h2>
                         <div className="space-23"></div>
-                        <h2>True Moves ~T:&nbsp;</h2>
+                        <h2>True Moves <EditIcon fontSize="large" />&nbsp;</h2>
+                        <div className="space-40"></div>
+                        <h2>{user2} <PersonIcon fontSize="medium" />2&nbsp;</h2>
                         <div className="space-23"></div>
+                        <h2>True Moves <EditIcon fontSize="large" />&nbsp;</h2>
+                        <div className="space-40"></div>
+                        <h2>{user3} <PersonIcon fontSize="medium" />3&nbsp;</h2>
                         <div className="space-23"></div>
-                        <h2>{user2}~2:&nbsp;</h2>
+                        <h2>True Moves <EditIcon fontSize="large" />&nbsp;</h2>
+                        <div className="space-40"></div>
+                        <h2>Position <PersonPinCircleIcon fontSize="large" />&nbsp;</h2>
                         <div className="space-23"></div>
-                        <h2>True Moves ~T:&nbsp;</h2>
-                        <div className="space-23"></div>
-                        <div className="space-23"></div>
-                        <h2>{user3}~3:&nbsp;</h2>
-                        <div className="space-23"></div>
-                        <h2>True Moves ~T:&nbsp;</h2>
-                        <div className="space-23"></div>
-                        <div className="space-23"></div>
-                        <h2>Position~P:&nbsp;</h2>
-                        <div className="space-23"></div>
-                        <h2>True Position~T:&nbsp;</h2>
+                        <h2>True Position <EditLocationIcon fontSize="large" />&nbsp;</h2>
                         <div className="btn-container">
                             <button className="expand-collapse" onClick={() => setShowLabels(a => !a)}>{ShowLabels ? <ArrowBackIosIcon /> : <ArrowForwardIosIcon />}</button>
                         </div>
@@ -429,6 +431,7 @@ export default function Evaluator(props) {
                             setTrue={setTrueUser1}
                             isPosition={false}
                             placeholder={user1 + "'s Ground Truth"} />
+                        <div className="space-23"></div>
 
                         <EvaluatorUnit
                             id={"1evaluator"}
@@ -438,6 +441,7 @@ export default function Evaluator(props) {
                             setTrue={setTrueUser2}
                             isPosition={false}
                             placeholder={user2 + "'s Ground Truth"} />
+                        <div className="space-23"></div>
 
                         <EvaluatorUnit
                             id={"2evaluator"}
@@ -447,6 +451,7 @@ export default function Evaluator(props) {
                             setTrue={setTrueUser3}
                             isPosition={false}
                             placeholder={user3 + "'s Ground Truth"} />
+                        <div className="space-23"></div>
 
                         <EvaluatorUnit
                             id={"3evaluator"}

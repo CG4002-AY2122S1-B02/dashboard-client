@@ -6,13 +6,14 @@ import { PathStreamAll, PathDanceMove, PathAccuracy } from '../../config';
 import StarIcon from '@material-ui/icons/Star';
 
 export default function UserCard(props) {
-    const { swap, position, name, sensor_set, toggleDance } = props
+    const { swap, position, name, sensor_set, toggleDance, setScore } = props
     const [latestDance, setLatestDance] = useState({ "name": "", "accuracy": -1 },)
     const [totalAccuracy, setTotalAccuracy] = useState(0)
 
     useEffect(() => {
         setTotalAccuracy(0)
-    }, [toggleDance])
+        setScore(0)
+    }, [toggleDance, setScore])
 
     useEffect(() => {
         const DanceMoveNamesocket = new WebSocket(PathStreamAll + props.stream + PathDanceMove)
@@ -34,8 +35,9 @@ export default function UserCard(props) {
 
         DanceMoveAccuracysocket.onmessage = (e) => {
             setTotalAccuracy(a => a + parseInt(e.data))
+            setScore(a => a + parseInt(e.data))
         }
-    }, [props.stream])
+    }, [props.stream, setScore])
 
     return (
         <div className={"user-card pos" + String(swap ? position : sensor_set)}>

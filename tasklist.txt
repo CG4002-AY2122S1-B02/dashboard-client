@@ -12,3 +12,35 @@ netflix style user accounts
 vo - for json request and response struct n create
 po - for database operations and struct 
 next episode netflix timer to go offline analytics in controller* or to stay on page and start new session
+
+cd /mnt/c/Users/ZhengWen/Documents/Nus\ mods/Y4S1/CG4002/server/
+sudo service postgresql start
+./bin/dashboard_server_linux
+python3 scripts/ultra96position.py
+python3 scripts/ultra96.py 8881
+python3 scripts/ultra96.py 8882
+python3 scripts/ultra96.py 8883
+
+cd ~/react/dashboard-client
+yarn start
+
+____________________________________________________________
+#!/bin/bash
+
+sudo service postgresql start
+
+cd /mnt/c/Users/ZhengWen/Documents/Nus\ mods/Y4S1/CG4002/server/
+./bin/dashboard_server_linux &
+python3 scripts/ultra96position.py &
+python3 scripts/ultra96.py 8881 &
+python3 scripts/ultra96.py 8882 &
+python3 scripts/ultra96.py 8883 &
+
+cd ~/react/dashboard-client
+yarn start &
+
+
+_________________________
+kill %1
+kill $(jobs -p)
+kill -9

@@ -154,6 +154,7 @@
     margin: 0;
     margin-left: 45px;
     overflow: visible;
+    // filter: contrast(220%) grayscale(90%);
 
     &.first{
         margin-left: 40px;
@@ -236,4 +237,8 @@
 
 .space-23{
     height: 23px;
+}
+
+.space-40{
+    height: 55px;
 }

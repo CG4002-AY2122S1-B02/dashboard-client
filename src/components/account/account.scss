@@ -14,7 +14,7 @@
     background: $background_color;
 
     .container{
-        border-radius: 50px;
+        border-radius: 20px;
         overflow: hidden;
         width: 80%;
         max-width: 1350px;
@@ -24,7 +24,7 @@
         display: flex;
         justify-content: space-between;
         // background: rgba(132, 0, 255, 0.212);
-        box-shadow: 0 2px 13px pink;
+        // box-shadow: 0 2px 13px pink;
         overflow: hidden;
 
         div{
@@ -38,10 +38,14 @@
             overflow: hidden;
             perspective: 1000px;
             background-image: linear-gradient(to right, rgba(98, 0, 255, 0.493),rgba(255, 0, 128, 0.507));
+            opacity: 1;
+            filter: grayscale(0);
 
             &.is-logged-in{
                 width: 45%;
                 transition: 1s ease;
+                filter: grayscale(60%);
+                opacity: 100%;
             }
 
             .content{
@@ -146,8 +150,9 @@
             height: 100%;
             transition: 1s ease;
             width: 0;
-            filter: hue-rotate(90deg);
+            // filter: hue-rotate(-0deg);
             box-shadow: 0 5px 13px pink;
+            filter: grayscale(100%);
 
             .form{
                 display: none;
@@ -158,8 +163,8 @@
                 width: 50%;
                 transition: 1s ease;
                 position: relative;
-                filter: hue-rotate(0deg);
-
+                // filter: hue-rotate(0deg);
+                filter: grayscale(0);
                 box-shadow: 0 2px 13px pink;
                 
                 .form{

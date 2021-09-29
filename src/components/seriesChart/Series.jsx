@@ -16,11 +16,13 @@ import {
 //https://www.telerik.com/forums/series-legend-show-hide-chart-data-programmatically
 //think can just dump all data and let https://www.telerik.com/kendo-react-ui/components/charts/chart/elements/axes/ handle Selecting Time Intervals
 
-const categoryAxisMax = new Date(2000, 1, 0);
+const categoryAxisMax = Date.now();
 const categoryAxisMaxDivisions = 10;
 
 const ChartContainer = (props) => {
-    const { wrong_move, star_1, star_2, star_3, correct_move, wrong_position, correct_position, group_sync_delay } = props.data
+    const { baseUnit } = props
+
+    const { wrong_move, star_1, star_2, star_3, correct_move, wrong_position, correct_position, group_sync_delay, epoch_ms, timestamps } = props.data
 
     const DanceMoveAccuracyVisibility = props.mode === "Dance Move Accuracy"
     const DanceMoveCorrectnessVisibility = props.mode === "Dance Move Correctness"
@@ -29,11 +31,15 @@ const ChartContainer = (props) => {
 
     const renderToolTipGenerator = () => {
         const renderTooltip = (context) => {
-            const { series, value } = context.point || context;
+            const { series, value, category } = context.point || context;
+            const decimalPosition = String(value).indexOf(".")
+            const correctedValue = decimalPosition === -1 ? value : String(value).slice(0, decimalPosition + 3)
             return (
                 <div>
-                    [{value}] -
+                    [{correctedValue}] -
                     {series.name}
+                    {baseUnit === "sessions" ? <strong><br />(Session: {category})</strong> : <span></span>}
+
                     {/* {String(value * 100).slice(0, 5)}% ({Math.round(value * total)}/{total}) */}
                 </div>
             );
@@ -46,6 +52,9 @@ const ChartContainer = (props) => {
         <Chart
             pannable={{
                 lock: "y",
+                mousewheel: {
+                    lock: "y"
+                }
             }}
             zoomable={{
                 mousewheel: {
@@ -58,8 +67,11 @@ const ChartContainer = (props) => {
         >
             <ChartCategoryAxis>
                 <ChartCategoryAxisItem
+                    categories={(baseUnit === "sessions") ? timestamps : epoch_ms.map(e => new Date(e))}
                     max={categoryAxisMax}
                     maxDivisions={categoryAxisMaxDivisions}
+                    baseUnit={baseUnit}
+                    labels={{ visible: (baseUnit !== "sessions") }}
                 />
             </ChartCategoryAxis>
             <ChartValueAxis>
@@ -74,13 +86,14 @@ const ChartContainer = (props) => {
             <ChartSeries>
 
                 <ChartSeriesItem visible={DanceMoveAccuracyVisibility || DanceMoveCorrectnessVisibility}
-                    name="wrong dance move " data={wrong_move} stack={{ group: 'a' }} field="count" categoryField="timestamp" />
+                    name="wrong dance move " data={wrong_move} stack={{ group: 'a' }} field="count" aggregate="sum"
+                    type="column" />
                 <ChartSeriesItem visible={DanceMoveAccuracyVisibility}
-                    name="★ dance move" data={star_1} stack={{ group: 'a' }} field="count" categoryField="timestamp" />
+                    name="★ dance move" data={star_1} stack={{ group: 'a' }} field="count" type="column" aggregate="sum" />
                 <ChartSeriesItem visible={DanceMoveAccuracyVisibility}
-                    name="★★ dance move" data={star_2} stack={{ group: 'a' }} field="count" categoryField="timestamp" />
+                    name="★★ dance move" data={star_2} stack={{ group: 'a' }} field="count" type="column" aggregate="sum" />
                 <ChartSeriesItem visible={DanceMoveAccuracyVisibility}
-                    name="★★★ dance move" data={star_3} stack={{ group: 'a' }} field="count" categoryField="timestamp" >
+                    name="★★★ dance move" data={star_3} stack={{ group: 'a' }} field="count" type="column" aggregate="sum">
                     {/* <ChartSeriesLabels
                         color="#fff"
                         background="none"
@@ -88,14 +101,14 @@ const ChartContainer = (props) => {
                     /> */}
                 </ChartSeriesItem>
                 <ChartSeriesItem visible={DanceMoveCorrectnessVisibility}
-                    name="correct dance move " data={correct_move} stack={{ group: 'a' }} field="count" categoryField="timestamp" />
+                    name="correct dance move " data={correct_move} stack={{ group: 'a' }} field="count" type="column" aggregate="sum" />
 
-                <ChartSeriesItem visible={PositionCorrectnessVisibility} name="wrong position" data={wrong_position} stack={{ group: 'b' }} field="count" categoryField="timestamp" />
-                <ChartSeriesItem visible={PositionCorrectnessVisibility} name="correct position" data={correct_position} stack={{ group: 'b' }} field="count" categoryField="timestamp" />
+                <ChartSeriesItem visible={PositionCorrectnessVisibility} name="wrong position" data={wrong_position} stack={{ group: 'b' }} field="count" type="column" aggregate="sum" />
+                <ChartSeriesItem visible={PositionCorrectnessVisibility} name="correct position" data={correct_position} stack={{ group: 'b' }} field="count" type="column" aggregate="sum" />
 
-                <ChartSeriesItem visible={SyncDelayVisibility} name="avg group sync delay (ms)" data={group_sync_delay} stack={{ group: 'c' }} field="count" categoryField="timestamp" />
+                <ChartSeriesItem visible={SyncDelayVisibility} name="avg group sync delay (ms)" data={group_sync_delay} stack={{ group: 'c' }} field="count" type="column" aggregate="avg" />
             </ChartSeries>
-            <ChartLegend position="bottom" orientation="horizontal" visible={true} />
+            <ChartLegend position="bottom" orientation="horizontal" visible={true} type="column" />
 
         </Chart>
     );
@@ -106,7 +119,7 @@ export default function Series(props) {
         <div className="series">
             <h2>{props.title}</h2>
             <div className="chart">
-                <ChartContainer data={props.data} mode={props.mode} />
+                <ChartContainer data={props.data} mode={props.mode} baseUnit={props.baseUnit} />
             </div>
         </div>
     )

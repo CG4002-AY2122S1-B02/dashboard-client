@@ -46,9 +46,9 @@ const UserCards = (props) => {
 
     return (
         <div className="user-cards" style={{ paddingBottom: TimelineHeight + 290 }}>
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore1} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore2} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore3} />
         </div>
     )
 }
@@ -70,6 +70,9 @@ export default function Live(props) {
     const [TimeLabels, setTimeLabels] = useState(generateList()) //13
     const [CurrentSessionData, setCurrentSessionData] = useState(emptySessionData)
     const [sessionName, setSessionNameX] = useState("~session " + new Date(Date.now()).toLocaleString())
+    const [Score1, setScore1] = useState(0)
+    const [Score2, setScore2] = useState(0)
+    const [Score3, setScore3] = useState(0)
 
     const CurrentSessionEmpty = CurrentSessionData.user_1 == null && CurrentSessionData.user_2 == null && CurrentSessionData.user_3 == null
 
@@ -152,15 +155,38 @@ export default function Live(props) {
         })
     }
 
-    if (!loggedIn || user1 === "" || user2 === "" || user3 === "") return (
-        <Error />
-    )
+    const isAscending = (x, y, z) => {
+        return x >= y && y >= z && !(y === z && y === x)
+    }
+
+    const leaderboard = () => {
+        if (isAscending(Score1, Score2, Score3)) {
+            return [user1, user2, user3]
+        } else if (isAscending(Score1, Score3, Score2)) {
+            return [user1, user3, user2]
+        } else if (isAscending(Score3, Score1, Score2)) {
+            return [user3, user1, user2]
+        } else if (isAscending(Score3, Score2, Score1)) {
+            return [user3, user2, user1]
+        } else if (isAscending(Score2, Score1, Score3)) {
+            return [user2, user1, user3]
+        } else if (isAscending(Score2, Score3, Score1)) {
+            return [user2, user3, user1]
+        }
+
+        return ["-", "-", "-"]
+    }
+
+    // if (!loggedIn || user1 === "" || user2 === "" || user3 === "") return (
+    //     <Error />
+    // )
 
     return (
         <div className="live">
             <Video colorHex="#120011" source="spotlights" />
-            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty} />
-            <Controller toggleDance={handleSubmit} dancing={!timelineState} sessionName={sessionName} setSessionName={setSessionName} />
+            <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty}
+                setScore1={setScore1} setScore2={setScore2} setScore3={setScore3} />
+            <Controller toggleDance={handleSubmit} dancing={!timelineState} sessionName={sessionName} setSessionName={setSessionName} leaderboard={leaderboard()} />
             {CurrentSessionEmpty ? <div></div> :
                 <PreliminaryAnalysis account={props.account} sessionName={sessionName} setSessionName={setSessionName}
                     setCurrentSessionData={setCurrentSessionData} CurrentSessionData={CurrentSessionData} />

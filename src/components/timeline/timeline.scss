@@ -40,7 +40,15 @@
                 background: gray;
             }
 
+            .dance{
+                display: none;
+            }
+
             &.move{
+                .dance{
+                    display: flex;
+                }
+
                 @include keyframes(timestart){
                     0%{
                         transform: translateY(0px);

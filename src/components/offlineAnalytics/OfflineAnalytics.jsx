@@ -86,7 +86,7 @@ const SeriesDisplay = (props) => (
     </div>
 )
 
-const TextDisplay = (props) => (
+export const TextDisplay = (props) => (
     <div className="offline-chart">
         <h2>
             {props.heading}

@@ -58,6 +58,19 @@
                     }
                 }
             }
+
+            .row{
+                margin-bottom: 15px;
+                .offline-chart{
+                    background: none;
+                    margin-top: -11px;
+
+                    .value{
+                        margin-top: -15px;
+                        color: $series-8;
+                    }
+                }
+            }
         }
     
         .evaluator{

@@ -177,12 +177,12 @@ export default function Live(props) {
         return ["-", "-", "-"]
     }
 
-    // if (!loggedIn || user1 === "" || user2 === "" || user3 === "") return (
-    //     <Error />
-    // )
-
     return (
         <div className="live">
+
+            {
+                !loggedIn || user1 === "" || user2 === "" || user3 === "" || user1 === user2 || user2 === user3 || user1 === user3 ? <Error /> : <div></div>
+            }
             <Video colorHex="#120011" source="spotlights" />
             <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty}
                 setScore1={setScore1} setScore2={setScore2} setScore3={setScore3} />

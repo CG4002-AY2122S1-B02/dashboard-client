@@ -24,7 +24,7 @@
         display: flex;
         justify-content: space-between;
         // background: rgba(132, 0, 255, 0.212);
-        // box-shadow: 0 2px 13px pink;
+        box-shadow: 0 1px 7px white;
         overflow: hidden;
 
         div{
@@ -37,7 +37,7 @@
             width: 100%;
             overflow: hidden;
             perspective: 1000px;
-            background-image: linear-gradient(to right, rgba(98, 0, 255, 0.493),rgba(255, 0, 128, 0.507));
+            background-image: linear-gradient(to right, rgba(36, 126, 243, 0.40),rgba(255, 0, 128, 0.40));
             opacity: 1;
             filter: grayscale(0);
 
@@ -46,6 +46,12 @@
                 transition: 1s ease;
                 filter: grayscale(60%);
                 opacity: 100%;
+
+                .content{
+                    .logo{
+                        width: calc(100% - 55px);
+                    }
+                }
             }
 
             .content{
@@ -56,7 +62,22 @@
                     font-size: 20px;
                     font-weight: 400;
                     color: $unfocussed_color; 
+
                 }
+                
+                .logo{
+                    margin: 0;
+                    width: calc(100% - 55px);
+
+                    max-width: 600px;
+                    height: 100px;
+                    margin-bottom: -20px;
+                    margin-top: -20px;
+                    justify-content: flex-start;
+                    display: flex;
+                    transition: 1s ease;
+                }
+
                 h1{
                     margin: 0;
                     font-weight: 500;
@@ -130,6 +151,7 @@
                 left: -100%;
                 width: 250%;
                 height: 250%;
+                opacity: 0.25;
                 
                 // background: rgba(175, 95, 147, 0.555);
                 background-image: url('../../assets/wallpaper.png');
@@ -146,7 +168,7 @@
         }
 
         .users{
-            background-image: linear-gradient(to right, rgba(194, 0, 97, 0.507), rgba(255, 0, 255, 0.493));
+            background-image: linear-gradient(to right, rgba(194, 0, 97, 0.40), rgba(255, 0, 255, 0.40));
             height: 100%;
             transition: 1s ease;
             width: 0;
@@ -201,6 +223,10 @@
                     position: relative;
 
                     .image-container{
+                        font-size: 40px;
+                        margin-left: 10px;
+
+
                         padding: 0;
                         position: absolute;
                         top: 0;

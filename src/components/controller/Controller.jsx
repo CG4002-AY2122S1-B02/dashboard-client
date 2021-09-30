@@ -65,7 +65,7 @@ export default function Controller(props) {
         const socket = new WebSocket(PathGroupSyncDelayStream)
 
         socket.onopen = () => {
-            setSync("-")
+            setSync("-------")
             setRerenderSync(0)
         }
 
@@ -85,26 +85,28 @@ export default function Controller(props) {
         <div className="controller">
             <div className="container">
                 {/* <SessionNameField setSessionName={setSessionName} sessionName={sessionName} /> */}
-                <div className="global-stats">
-                    <span className="sync-delay">
-                        <span>
-                            < TimerIcon fontSize="large" />
-                        </span>
-                        <strong key={RerenderSync} className="delay">{Sync}</strong> </span>
-                    <span className="separator-vert"></span>
-                    <span className="leaderboard">
-                        <LeaderboardIcon fontSize="large" /> <span className="leaderboard">1st: {props.leaderboard[0]}, 2nd: {props.leaderboard[1]}, 3rd: {props.leaderboard[2]}</span>
-                    </span>
-                </div>
-                <div className="logo">
-                    <img src="assets/logo2.png" alt="" />
-                </div>
+                <span className="leaderboard">
+                    <LeaderboardIcon fontSize="large" />
+                    <span className="content">1st: {props.leaderboard[0]}, 2nd: {props.leaderboard[1]}, 3rd: {props.leaderboard[2]}</span>
+                </span>
                 <div className="button-tabs">
                     <UserPageIcon /> <span className="separator-vert"></span>
                     <DancePageIcon toggleDance={props.toggleDance} dancing={props.dancing} />
                     <span className="separator-vert"></span>
                     <OfflinePageIcon />
                 </div>
+                <div className="logo">
+                    <img src="assets/logo2.png" alt="" />
+                </div>
+
+                <span className="sync-delay">
+                    <span>
+                        < TimerIcon fontSize="large" />
+                    </span>
+                    <strong key={RerenderSync} className="delay">{Sync}</strong>
+                </span>
+
+
             </div>
         </div>
     )

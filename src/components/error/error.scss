@@ -1,9 +1,16 @@
 @import '../../global.scss';
 
 .error{
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    z-index: 50;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background: $background_color;
+
     .container{
+        z-index: 50;
         margin-top: 200px;
         display: flex;
         justify-content: center;

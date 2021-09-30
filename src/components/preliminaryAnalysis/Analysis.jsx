@@ -5,6 +5,7 @@ import Evaluator from "../evaluator/Evaluator";
 import { useState, useEffect } from 'react';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TextDisplay } from '../offlineAnalytics/OfflineAnalytics';
 
 export default function PreliminaryAnalysis(props) {
     //0-Total, 1-1star, 2-2star, 3-3star
@@ -61,7 +62,7 @@ export default function PreliminaryAnalysis(props) {
     const AnalyticsPreview = () => {
         const [collapseEvaluator, setCollapseEvaluator] = useState(false)
         return (
-            <div className="analytics-preview" style={{ height: collapseEvaluator ? "35px" : "630px" }}>
+            <div className="analytics-preview" style={{ height: collapseEvaluator ? "35px" : "645px" }}>
                 <h1>Analytics Preview
                     <div className="btn-container" >
                         <button className="expand-collapse" onClick={() => setCollapseEvaluator(c => !c)}>
@@ -86,6 +87,7 @@ export default function PreliminaryAnalysis(props) {
                         centerText={String(PositionCorrect[1] / PositionCorrect[0] * 100).slice(0, 5) + "% (" +
                             PositionCorrect[1] + "/" + PositionCorrect[0] + ") CORRECT"}
                         total={PositionCorrect[0]} />
+                    <TextDisplay heading="Average Group Sync Delay" value={CurrentSessionData.avg_group_sync_delay + "ms"} />
                 </div>
             </div>
         )

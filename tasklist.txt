@@ -1,3 +1,5 @@
+https://freshman.tech/snippets/go/cross-compile-go-programs/
+
 create button to start/stop dance session 
 (eliminate and validate any streaming bugs, try all possibilites of how data will be streamed here)
 create offline analytics

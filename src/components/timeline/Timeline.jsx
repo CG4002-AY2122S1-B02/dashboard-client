@@ -7,7 +7,7 @@ import { TimelineDivisionHeight, TimelineDivisionSeconds, TimelineHeight, START_
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
-const OFFSET = 15
+const OFFSET = 0 //200 
 
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
@@ -55,6 +55,8 @@ const Lines = (props) => {
         setBuffer(b => (
             getBuffer(b)
         ))
+
+        console.log(danceMove)
     }, [danceMove])
 
     useEffect(() => {

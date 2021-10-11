@@ -12,7 +12,7 @@ import Video from "../videoBg/Video";
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
 // const { height, width } = window();
 export const BUFFER_MAX_LENGTH = 7
-export const START_OFFSET_MS = -2000
+export const START_OFFSET_MS = 2000 //-2000
 export const TimelineDivisionHeight = 50 //minimum 20
 export const TimelineHeight = 400
 export const TimelineDivisionSeconds = 1
@@ -41,14 +41,14 @@ const UserCards = (props) => {
         }
 
     }, [])
-    const splitPosition = position.split("")
+    // const splitPosition = position.split("")
     //____________________________________________________
 
     return (
         <div className="user-cards" style={{ paddingBottom: TimelineHeight + 290 }}>
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[0]} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore1} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[1]} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore2} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={splitPosition[2]} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore3} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(1) + 1} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore1} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(2) + 1} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore2} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(3) + 1} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore3} />
         </div>
     )
 }

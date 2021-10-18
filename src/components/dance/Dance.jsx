@@ -1,6 +1,10 @@
 import './dance.scss'
 import StarIcon from '@material-ui/icons/Star';
 
+export function DanceStart(props) {
+    return <div className="dance-start">START</div>
+}
+
 export default function Dance(props) {
     const { name, accuracy, position } = props
 
@@ -30,6 +34,9 @@ export default function Dance(props) {
         case "Mermaid": //green and blue
             gradientText = "linear-gradient(to right,#007082,50%, #008000)"
             break
+        case "START":
+            gradientText = "none"
+            break
         case "X":
         case "WRONG":
             gradientText = "linear-gradient(to right,#777777,50%, #777777)"
@@ -41,6 +48,10 @@ export default function Dance(props) {
             } else {
                 gradientText = "none"
             }
+    }
+
+    if (accuracy === -4002) {
+        gradientText = "none"
     }
 
 

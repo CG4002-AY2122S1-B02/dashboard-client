@@ -12,7 +12,7 @@ import Video from "../videoBg/Video";
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
 // const { height, width } = window();
 export const BUFFER_MAX_LENGTH = 7
-export const START_OFFSET_MS = 2000 //-2000
+export const START_OFFSET_MS = -17000 //2000 //-2000 //-17000 --> HW //-10000 --> SW
 export const TimelineDivisionHeight = 50 //minimum 20
 export const TimelineHeight = 400
 export const TimelineDivisionSeconds = 1

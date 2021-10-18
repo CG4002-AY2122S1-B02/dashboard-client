@@ -12,7 +12,8 @@ const OFFSET = 0 //200
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
     const [buffer, setBuffer] = useState([
-        // { "epochMs": Date.now(), "name": "start", "accuracy": "MSG" },
+        // { "epochMs": Date.now(), "name": "start", "accuracy": "0" },
+        // { "epochMs": Date.now(), "name": "START", "accuracy": 0 },
         // { "epochMs": Date.now(), "name": "Push Back", "accuracy": 0 },
         // { "epochMs": Date.now() + 1000, "name": "Scarecrow", "accuracy": 1 },
         // { "epochMs": Date.now() + 2000, "name": "Dab", "accuracy": 3 },
@@ -23,6 +24,7 @@ const Lines = (props) => {
         // { "epochMs": Date.now() + 7000, "name": "Mermaid", "accuracy": 2 },
     ])
     const [danceMove, setDanceMove] = useState({ "epochMs": Date.now(), "name": "start", "accuracy": 0 })
+    // const [danceMove, setDanceMove] = useState({ "epochMs": Date.now(), "name": "START", "accuracy": 0 })
 
     useEffect(() => {
         const socket = new WebSocket(PathStreamAll + props.stream)
@@ -57,6 +59,7 @@ const Lines = (props) => {
         ))
 
         console.log(danceMove)
+        console.log(String(Date.now() + START_OFFSET_MS) + " - " + danceMove.epochMs + " = " + String(Date.now() + START_OFFSET_MS - danceMove.epochMs))
     }, [danceMove])
 
     useEffect(() => {
@@ -106,7 +109,7 @@ const Line = (props) => {
                 bottom: props.bottom,
                 marginBottom: String(TimelineDivisionHeight - 20) + "px"
             }}>
-            <div className="line-label"> {SecToTime(label, false)} </div>
+            <div className="line-label"> {SecToTime(label + (START_OFFSET_MS / 1000), false)} </div>
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
                 <Dance name={finalDanceMove.name}

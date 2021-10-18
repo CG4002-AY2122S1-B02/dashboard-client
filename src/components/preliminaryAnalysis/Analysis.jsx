@@ -71,12 +71,21 @@ export default function PreliminaryAnalysis(props) {
                     </div>
                 </h1>
                 <div className="row">
-                    <Donut title={user1 + "'s Dance Moves"} data={UserData[0]}
-                        centerText={GetUserCenterText(1)} total={UserRawData[0][0]} />
-                    <Donut title={user2 + "'s Dance Moves"} data={UserData[1]}
-                        centerText={GetUserCenterText(2)} total={UserRawData[1][0]} />
-                    <Donut title={user3 + "'s Dance Moves"} data={UserData[2]}
-                        centerText={GetUserCenterText(3)} total={UserRawData[2][0]} />
+                    {
+                        UserRawData[0][0] > 0 ?
+                            <Donut title={user1 + "'s Dance Moves"} data={UserData[0]}
+                                centerText={GetUserCenterText(1)} total={UserRawData[0][0]} /> : <div></div>
+                    }
+                    {
+                        UserRawData[1][0] > 0 ?
+                            <Donut title={user2 + "'s Dance Moves"} data={UserData[1]}
+                                centerText={GetUserCenterText(2)} total={UserRawData[1][0]} /> : <div></div>
+                    }
+                    {
+                        UserRawData[2][0] > 0 ?
+                            <Donut title={user3 + "'s Dance Moves"} data={UserData[2]}
+                                centerText={GetUserCenterText(3)} total={UserRawData[2][0]} /> : <div></div>
+                    }
                 </div>
                 <div className="row">
                     <Donut title={"All Dance Moves"} data={AggregatedData}

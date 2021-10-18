@@ -13,11 +13,11 @@ import OfflineAnalytics from './components/offlineAnalytics/OfflineAnalytics';
 
 function App() {
   const [account, setAccount] = useState({
-    "master": "",
-    "loggedIn": false,
-    "user1": "",
-    "user2": "",
-    "user3": ""
+    "master": "CG4002",
+    "loggedIn": true,
+    "user1": "Jerry",
+    "user2": "X2",
+    "user3": "X3"
   })
 
   const login = (master, password) => {

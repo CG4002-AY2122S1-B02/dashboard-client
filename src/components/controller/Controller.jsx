@@ -83,6 +83,9 @@ export default function Controller(props) {
 
     return (
         <div className="controller">
+            <div className="ecg-border">
+
+            </div>
             <div className="container">
                 {/* <SessionNameField setSessionName={setSessionName} sessionName={sessionName} /> */}
                 <span className="leaderboard">

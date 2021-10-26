@@ -25,13 +25,23 @@
     padding-bottom: 5px;
     bottom: 0;
 
+    .ecg-border{
+        position: absolute;
+        top: -14px;
+        left: 0;
+        width: 50%;
+        height: 1px;
+        border-top: 2px white solid ;
+        box-shadow: 0 -4px 13px pink;
+    }
+
     .container{
         width: 100%;
         padding: 10px;
         height: 100%;
         display: flex;
         background: $live_controller_background;
-        box-shadow: 0 -4px 13px pink;
+        // box-shadow: 0 -4px 13px pink;
         position: relative;
         overflow: hidden;
         justify-content: space-between;

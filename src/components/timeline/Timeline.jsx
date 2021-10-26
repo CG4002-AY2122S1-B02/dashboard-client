@@ -1,13 +1,13 @@
 import './timeline.scss'
 import React, { useState, useEffect } from 'react';
-import Dance from '../dance/Dance';
+import Dance, { Dancing } from '../dance/Dance';
 import { PathStreamAll } from '../../config';
 import { TimelineDivisionHeight, TimelineDivisionSeconds, TimelineHeight, START_OFFSET_MS, BUFFER_MAX_LENGTH } from '../live/Live';
 
 // https://stackoverflow.com/questions/23618713/create-a-uniform-scrolling-speed-on-a-click-event
 // plan is to scroll slowly at speed set
 
-const OFFSET = 0 //200 
+const OFFSET = -5 //200 
 
 const Lines = (props) => {
     //____________________Dance Move Stream__________________________
@@ -59,19 +59,12 @@ const Lines = (props) => {
         ))
 
         console.log(danceMove)
-        console.log(String(Date.now() + START_OFFSET_MS) + " - " + danceMove.epochMs + " = " + String(Date.now() + START_OFFSET_MS - danceMove.epochMs))
+        console.log(String(Date.now() + START_OFFSET_MS) + " - " + danceMove.epochMs + " = " + String(Date.now() + START_OFFSET_MS - danceMove.epochMs + "| -> " + String(buffer.length > 0 ? danceMove.epochMs - buffer[0].epochMs : "")))
     }, [danceMove])
 
     useEffect(() => {
         setBuffer([{ "epochMs": Date.now(), "name": "start", "accuracy": 0 }])
     }, [props.timelineState])
-
-    // useEffect(() => {
-    //     console.log(buffer)
-    // }, [buffer])
-
-    //_______________________________________________________________
-
 
     return (
         <div className="lines" >
@@ -87,11 +80,37 @@ const Line = (props) => {
     const start_time = (props.buffer.length > 0 ? props.buffer[0].epochMs : Date.now()) + START_OFFSET_MS
     var pixelsOffsetRelativeLine = null
     var finalDanceMove = null
+
+    var dancingStartTime = 3634667450000 //this is the most likely dance start time to this line
+    var isDancing = false
+
     for (let i = 1; i < props.buffer.length; i++) {
         const danceMove = props.buffer[i]
-        //check if start_time + label - x < epochMs < start_time + label + x  
 
-        // console.log(String(danceMove.epochMs) + "|" + String(start_time) + "|" + String(label * 1000))
+
+        // records closest start time before label
+        if (danceMove.name === "START" &&
+            danceMove.epochMs < start_time + label * TimelineDivisionSeconds * 1000 -
+            TimelineDivisionSeconds * 1000) {
+            dancingStartTime = danceMove.epochMs
+            isDancing = true
+        }
+
+        // if closest end time before label is more than start time => not dancing
+        if (danceMove.name !== "START" &&
+            danceMove.epochMs < start_time + label * TimelineDivisionSeconds * 1000 //- TimelineDivisionSeconds * 1000
+            && danceMove.epochMs > dancingStartTime) {
+            isDancing = false
+        }
+
+        // // if got predicted
+        // if (danceMove.name !== "END" && danceMove.name !== "START" &&
+        // danceMove.epochMs < start_time + label * TimelineDivisionSeconds * 1000 +
+        // TimelineDivisionSeconds * 1000) {
+        //     predictionTime = danceMove.epochMs
+        // }
+
+        //check if start_time + label - x < epochMs < start_time + label + x  
         if (start_time + label * TimelineDivisionSeconds * 1000 < danceMove.epochMs &&
             danceMove.epochMs <= start_time + label * TimelineDivisionSeconds * 1000 +
             TimelineDivisionSeconds * 1000) {
@@ -99,9 +118,13 @@ const Line = (props) => {
             pixelsOffsetRelativeLine = (danceMove.epochMs - start_time - label *
                 1000 * TimelineDivisionSeconds) * TimelineDivisionHeight / 1000 * TimelineDivisionSeconds
             finalDanceMove = danceMove
-            break
+            if (danceMove.name !== "END") { //if name === END, it will get replaced
+                break
+            }
         }
     }
+
+    const currentStartTimestamp = props.buffer.length > 0 && pixelsOffsetRelativeLine != null ? finalDanceMove.epochMs - props.buffer[0].epochMs : 0
 
     return (
         <div className={"line" + (props.timelineState ? " move" : "")}
@@ -109,12 +132,25 @@ const Line = (props) => {
                 bottom: props.bottom,
                 marginBottom: String(TimelineDivisionHeight - 20) + "px"
             }}>
+            <Dancing isDancing={isDancing} />
             <div className="line-label"> {SecToTime(label + (START_OFFSET_MS / 1000), false)} </div>
             <div className="line-real"></div>
             {pixelsOffsetRelativeLine != null ?
+                // <div className="dance-special-wrapper">
+                //     {
+                //         finalDanceMove.name !== "START" ?
+                //             <div className="dancing-wrapper end" style={{ bottom: 0 }}>
+                //                 <Dancing isDancing={true} />
+                //             </div> : <span></span>
+                //     }
                 <Dance name={finalDanceMove.name}
-                    accuracy={finalDanceMove.accuracy} position={pixelsOffsetRelativeLine + OFFSET} />
+                    accuracy={finalDanceMove.accuracy} position={pixelsOffsetRelativeLine + OFFSET}
+                    text={SecToTime(currentStartTimestamp / 1000, true) + " " + String(currentStartTimestamp % 1000) + "ms"} />
+                // </div>
                 : <span></span>}
+
+            {/* <Dance name="START" position={50 + OFFSET} /> */}
+
         </div>
     )
 }

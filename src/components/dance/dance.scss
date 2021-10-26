@@ -1,6 +1,7 @@
 @import '../../global.scss';
 
 .dance{
+    z-index: 30;
     font-size: 18px;
     border-radius: 30px;
     padding: 3px;
@@ -36,10 +37,382 @@
     }
 }
 
+.dancing{
+    z-index: 0;
+    position: absolute;
+    top: 8px;
+    left: 23px;
+    width: 100%;
+    font-size: 18px;
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+
+    &.move{
+        @include keyframes(timestart){
+            0%{
+                transform: translateY(0px);
+                transition: 1s ease;
+            }
+            100%{
+                transform: translateY(-800px);
+                transition: none;
+            }
+        }
+        @include animate(timestart, 16s, linear, 1);
+    }
+
+    .beam{
+        
+        z-index: 0;
+        // background-image: linear-gradient(to right,#333333,50%, #554455);
+        width: calc(100% - 125px);
+        // width: 100%;
+        // height: 50px;
+
+        // border-radius: 5px;
+        transition: 1s ease;
+        background: linear-gradient(to right,#0e7955,50%, #6d740e);
+        
+        border-left: 2px solid $dancing_borders;
+        border-right: 2px solid  $dancing_borders;
+
+        // -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+        // from(rgba(0,0,0,0.05)), to(rgba(0,0,0,1)));
+        // -webkit-transition: background-image 1s ease-in-out;
+        // transition: background-image 1s ease-in-out;
+
+        &.grey{
+            background: $background_color;
+        }
+
+        &.blink{
+            background: $dancing_blink_color;
+        }
+
+        &.grey-blink{
+            @include keyframes(greyblink){
+                0%{
+                    background: $background_color;
+                }
+                50%{
+                    background: $dancing_blink_color;
+                }
+                100%{
+                    background: $background_color;
+                }
+            }
+
+            @include animate(greyblink, 2s, linear, infinite);
+        }
+
+        &.gradient{
+            @include keyframes(dancegradient){
+                0%{
+                    filter: hue-rotate(0deg);
+                }
+                50%{
+                    filter: hue-rotate(180deg);
+                }
+                100%{
+                    filter: hue-rotate(360deg);
+                }
+            }
+            @include animate(dancegradient, 3s, linear, infinite);
+        }
+
+        &.unknown{
+            @include keyframes(dancepending){
+                0%{
+                    background: #A61575;
+                }
+                10%{
+                    background: #D25900;
+                }
+                20%{
+                    background: #721287;
+                }
+                30%{
+                    background: #407100;
+                }
+                40%{
+                    background: #136EB8;
+                }
+                50%{
+                    background: #a69c15;
+                }
+                60%{
+                    background: #D25900;
+                }
+                70%{
+                    background: #7C6200;
+                }
+                80%{
+                    background: #007842;
+                }
+                90%{
+                    background: #136EB8;
+                }
+                100%{
+                    background: #A61575;
+                }
+            }
+            @include animate(dancepending, 5s, linear, infinite);
+        }
+        
+        &.pushback{
+            // background: linear-gradient(to right,#a71b5c,50%, #a40e8e);
+            background: #A61575;
+        }
+        &.scarecrow{
+            // background: linear-gradient(to right,#A87000,50%, #FE4200);
+            background: #D25900;
+        }
+        &.dab{
+            // background: linear-gradient(to right,#4A13AE,50%, #9c115e);
+            background: #721287;
+        }
+        &.snake{
+            // background: linear-gradient(to right,#167100,50%, #727200);
+            background: #407100;
+        }
+        &.window360{
+            // background: linear-gradient(to right,#242AB9,50%, #01B4B7);
+            background: #136EB8;
+        }
+        &.jamesbond{
+            // background: linear-gradient(to right,#B13060,50%, #B0954D);
+            background: #D25900;
+        }
+        &.cowboy{
+            // background: linear-gradient(to right,#757400,50%, #845000);
+            background: #7C6200;
+        }
+        &.mermaid{
+            // background: linear-gradient(to right,#007082,50%, #008000);
+            background: #007842;
+        }
+    }
+}
+
+.dance-special-wrapper{
+    position: absolute;
+    width: 100%;
+    left: 0;
+
+    .dancing-wrapper{
+        z-index: 10;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 50px;
+
+        &.start{
+            // -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+            // from(rgba(0, 0, 0, 0)), to(rgba(0,0,0,1)));
+            // -webkit-transition: background-image 1s ease-in-out;
+            // transition: background-image 1s ease-in-out;
+
+            .dancing{
+                border-top: 2px solid $dancing_borders;
+            }
+        }
+
+        &.end{
+            -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+            from(rgba(0, 0, 0, 1)), to(rgba(0,0,0,0)));
+            -webkit-transition: background-image 1s ease-in-out;
+            transition: background-image 1s ease-in-out;
+        }
+    }
+}
+
 .dance-start{
+    z-index: 30;
+    position: absolute;
+    left: 22px;
+    width: 100%;
+    font-size: 18px;
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    opacity: 60%;
+
+    .start-outline{
+        width: 0; 
+        height: 0; 
+        border-left: 150.5px solid transparent;
+        border-right: 150.5px solid transparent;
+        
+        border-bottom: 70px solid $content_color;
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+
+        &.square{
+            position: relative;
+            width: 100%;
+            border: none;
+            margin-left: 2.5px;
+            height: 50px;
+        }
+
+        
+        .start{
+            @include keyframes(greyblinkborder){
+                0%{
+                    border-bottom: 70px solid $background_color;
+                }
+                50%{
+                    border-bottom: 70px solid $dancing_blink_color;
+                }
+                100%{
+                    border-bottom: 70px solid $background_color;
+                }
+            }
+
+            @include animate(greyblinkborder, 2, linear, infinite);
+
+            width: 0; 
+            height: 0; 
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            
+            border-bottom: 70px solid $background_color;
+            display: flex;
+            justify-content: center;
+            margin-top: 2px;
+
+            &.square{
+                border: solid 2px $dancing_borders;
+                border-bottom: none;
+                width: calc(100% - 122px);
+                height: 50px;
+                background: $background_color;
+            }
+
+            .text{
+                color: rgb(255, 255, 255);
+                font-weight: 700;
+                text-align: center;
+                margin-top: 4px;
+                font-size: 14px;
+                
+                .subtext{
+                    font-size: 18px;
+
+                    &.positive{
+                        color: $dancing_borders
+                    }
+
+                    &.negative{
+                        color: rgb(255, 98, 98);
+                    }
+                }
+            }
+
+            
+        }
+    }
+}
+
+.dance-end{
+    z-index: 30;
+    // opacity: 60%;
     font-size: 18px;
     border-radius: 30px;
     padding: 3px;
+    width: calc(100% - 130px);
+    height: 25px;
+    display: flex;
+    justify-content: center;
     color: $dance_label_color;
-    background: rgba(0, 0, 0, 0.65);
+    // border-top: 2px solid $content_color;
+    position: absolute;
+    right: 35px;
+    // background: $background_color;
+
+    .timing{
+        position: absolute;
+        bottom: 50px;
+    }
+
+    .loading-container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // overflow: hidden;
+        // object-fit: fill;
+
+        // img{
+        //     height: 100%;
+        //     width: 100%;
+        // }
+
+        .loading-bead{
+            margin: 0 5px;
+            height: 10px;
+            width: 10px;
+            border-radius: 5px;
+            background: $content_color;
+            // border: 1px solid $content_color;
+            transition: 0.3s ease;
+
+            @include keyframes(beadblink1){
+                0%{
+                    background: $content_color;
+                }
+                33%{
+                    background: #333;
+                }
+                67%{
+                    background: #333;
+                }
+                100%{
+                    background: $content_color;
+                }
+            }
+
+            @include keyframes(beadblink2){
+                0%{
+                    background: #333;
+                }
+                33%{
+                    background: $content_color;;
+                }
+                67%{
+                    background: #333;
+                }
+                100%{
+                    background: #333;
+                }
+            }
+
+            @include keyframes(beadblink3){
+                0%{
+                    background: #333;
+                }
+                33%{
+                    background: #333;
+                }
+                67%{
+                    background: $content_color;
+                }
+                100%{
+                    background: #333;
+                }
+            }
+
+            &.x1{
+                @include animate(beadblink1, 1.5s, linear, infinite);
+            }
+            &.x2{
+                @include animate(beadblink2, 1.5s, linear, infinite);
+            }
+            &.x3{
+                @include animate(beadblink3, 1.5s, linear, infinite);
+            }
+        }
+    }
 }

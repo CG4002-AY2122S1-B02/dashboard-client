@@ -11,17 +11,28 @@ import Video from "../videoBg/Video";
 
 // https://developer.okta.com/blog/2021/08/02/fix-common-problems-cors
 // const { height, width } = window();
-export const BUFFER_MAX_LENGTH = 7
-export const START_OFFSET_MS = -17000 //2000 //-2000 //-17000 --> HW //-10000 --> SW
+export const BUFFER_MAX_LENGTH = 10
+/**
+ * 1s timelinedivisionseconds
+ * -2000 instant test
+ * -20000 hardware test
+ * -17000 hardware full system
+ * -10000 software full system
+ * -4000 start dancing test
+ * 
+ * 2s timelinedivisionseconds
+ * 
+ */
+export const START_OFFSET_MS = 0
 export const TimelineDivisionHeight = 50 //minimum 20
 export const TimelineHeight = 400
 export const TimelineDivisionSeconds = 1
-const TimelineDivisionsInView = TimelineHeight / TimelineDivisionHeight //6
+const TimelineDivisionsInView = TimelineHeight / TimelineDivisionHeight //8
 const TimelineDivisionsTotal = TimelineDivisionsInView * 3
 const TimelineStartingLabel = -TimelineDivisionsInView
 const TimelineDivisionsUnitUpdate = TimelineDivisionsInView / 2
 const TimelineUpdateInterval = TimelineDivisionSeconds * 1000 * TimelineDivisionsUnitUpdate
-//need change timeline.scss translateY(-600px) &  animate(timestart, 12s, to
+//need change timeline.scss translateY(-800px) &  animate(timestart, 16s, to
 // (-TimelineHeight * 2)px, (TimelineDivisionsInView * 2 * TimelineDivisionSeconds)s
 
 const PositionChange = true
@@ -59,7 +70,7 @@ export default function Live(props) {
     //Timer_______________________________________________
     const generateList = () => {
         var out = []
-        for (let i = TimelineStartingLabel; i < TimelineDivisionsTotal - TimelineStartingLabel; i += TimelineDivisionSeconds) {
+        for (let i = TimelineStartingLabel; i < (TimelineDivisionsTotal - TimelineStartingLabel) * TimelineDivisionSeconds; i += TimelineDivisionSeconds) {
             out.push(i)
         }
 
@@ -124,7 +135,6 @@ export default function Live(props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         }).then(() => {
-            console.log('handle post')
             if (timelineState) {
                 //first retrieve the upload data then show the Evaluator
 

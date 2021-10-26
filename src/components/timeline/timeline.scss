@@ -18,16 +18,21 @@
 
 .timeline{
     width: 100%;
-    height: calc(100vh - 450px);
-    // background: lightcyan;
+    // height: calc(100vh - 450px);
     overflow: hidden;
     position: relative;
 
     .lines{
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+
         .line{
             height: 20px;
             display: flex;
             align-items: center;
+            z-index: 5;
 
             .line-label{
                 font-size: 14px;
@@ -37,6 +42,7 @@
                 margin-left: 10px;
                 width: 500px;
                 height: 1px;
+                z-index: 30;
                 background: gray;
             }
 
@@ -51,7 +57,7 @@
 
                 @include keyframes(timestart){
                     0%{
-                        transform: translateY(0px);
+                        transform: translateY(0);
                         transition: 1s ease;
                     }
                     100%{

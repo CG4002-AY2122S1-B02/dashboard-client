@@ -22,6 +22,12 @@ $live_controller_background: rgba(36, 126, 243, 0.15);
 // $background_color: rgb(197, 197, 197);
 // $content_color: rgb(11, 0, 19);
 
+$dancing_blink_color: #222; //#203;
+
+$dancing_borders: $faint_purple;
+
+
+
 button{
     margin: 0 auto;
     display: block;
@@ -103,3 +109,17 @@ $series-7: rgb(113, 173, 0);
 $series-8: rgb(255, 208, 0);
 $chart-major-lines: grey;
 $chart-minor-lines: rgb(63, 63, 63);
+
+@mixin animate($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}
+
+@mixin stay() {
+    animation-fill-mode: forwards;
+}
+
+@mixin keyframes($name){
+    @keyframes #{$name}{
+        @content;
+    }
+}

@@ -1,0 +1,81 @@
+@import "../../global.scss";
+
+.alert{
+    width: calc(100% - 30px);
+    border-radius: 5px;
+    z-index: 32;
+
+    &.user{
+        position: absolute;
+        top: 200px;
+    }
+
+    .container{
+        width: calc(100% - 14px);
+        padding: 7px;
+        backdrop-filter: blur(5px);
+        display: flex;
+        font-size: $medium_content_size;
+        color: $background_color;
+        transition: 0.5s ease;
+        background: rgba(197, 197, 197, 0.7);
+        border-radius: 13px;
+
+        .text{
+            font-size: 18px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .notification-icon{
+            fill: $background_color;
+            @include keyframes(shake){
+                0%{
+                    transform: rotateZ(-20deg);
+                }
+                50%{
+                    transform: rotateZ(20deg);
+                }
+                100%{
+                    transform: rotateZ(-20deg);
+                }
+            }
+            @include animate(shake, 1s, linear, infinite);
+        }
+
+        &.down{
+            position: absolute;
+            top: 0;
+            opacity: 0;
+            left: 0;
+            @include keyframes(appear){
+                0%{
+                    top: -50px;
+                    opacity: 0;
+                }
+                15%{
+                    top: -10px;
+                    opacity: 1;
+                }
+                90%{
+                    top: -10px;
+                    opacity: 1;
+                }
+                100%{
+                    top: 10px;
+                    opacity: 0;
+                }
+            }
+            @include animate(appear, 3s, linear, 1);
+            @include stay()
+        }
+    
+        &.inactive{
+            // opacity: 0;
+            position: absolute;
+            top: -10px;
+            left: 0;
+        }
+    }
+}

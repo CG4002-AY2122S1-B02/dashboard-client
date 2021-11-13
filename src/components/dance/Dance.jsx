@@ -113,7 +113,6 @@ export default function Dance(props) {
     }
 
 
-
     const Rating = (props) => {
         const accuracy = parseInt(props.accuracy)
         switch (accuracy) {
@@ -152,7 +151,7 @@ export default function Dance(props) {
         <div className="dance"
             style={{ backgroundImage: gradientText, top: position }}
         >
-            <span>{name}<span> </span><Rating accuracy={accuracy} /></span>
+            <span>{name === "LOGOUT" ? "Logout" : name} {name !== "Logout" && name !== "LOGOUT" ? <Rating accuracy={accuracy} /> : <span></span>}</span>
         </div>
     )
 }

@@ -29,10 +29,23 @@
         position: absolute;
         top: -14px;
         left: 0;
-        width: 50%;
         height: 1px;
         border-top: 2px white solid ;
         box-shadow: 0 -4px 13px pink;
+        transition: 0.5s ease;
+    }
+
+    .tool-tip{
+        font-size: 20px;
+        position: absolute;
+        right: 20px;
+        top: -55px;
+        background: $background_color;
+        border-radius: 20px;
+        border-bottom-right-radius: 0;
+        padding: 5px;
+        border: 1px white solid;
+        box-shadow: -2px 0 5px pink;
     }
 
     .container{

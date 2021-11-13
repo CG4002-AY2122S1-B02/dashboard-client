@@ -57,9 +57,9 @@ const UserCards = (props) => {
 
     return (
         <div className="user-cards" style={{ paddingBottom: TimelineHeight + 290 }}>
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(1) + 1} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore1} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(2) + 1} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore2} />
-            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(3) + 1} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore3} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(1) + 1} name={props.account.user1} sensor_set={1} stream={User1Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore1} setLogout={props.setLogout} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(2) + 1} name={props.account.user2} sensor_set={2} stream={User2Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore2} setLogout={props.setLogout} />
+            <UserCard timelineState={props.timelineState} swap={PositionChange} position={position.indexOf(3) + 1} name={props.account.user3} sensor_set={3} stream={User3Port} timeLabels={props.timeLabels} toggleDance={props.toggleDance} setScore={props.setScore3} setLogout={props.setLogout} />
         </div>
     )
 }
@@ -195,7 +195,7 @@ export default function Live(props) {
             }
             <Video colorHex="#120011" source="spotlights" />
             <UserCards timeLabels={TimeLabels} timelineState={timelineState} account={props.account} toggleDance={CurrentSessionEmpty}
-                setScore1={setScore1} setScore2={setScore2} setScore3={setScore3} />
+                setScore1={setScore1} setScore2={setScore2} setScore3={setScore3} setLogout={() => { if (timelineState) handleSubmit(); }} />
             <Controller toggleDance={handleSubmit} dancing={!timelineState} sessionName={sessionName} setSessionName={setSessionName} leaderboard={leaderboard()} />
             {CurrentSessionEmpty ? <div></div> :
                 <PreliminaryAnalysis account={props.account} sessionName={sessionName} setSessionName={setSessionName}

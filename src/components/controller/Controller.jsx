@@ -7,7 +7,7 @@ import StopIcon from '@mui/icons-material/Stop';
 import { Link } from 'react-router-dom';
 import TimerIcon from '@mui/icons-material/Timer';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import { PathGroupSyncDelayStream } from '../../config';
+import { PathGroupSyncDelayStream, PathECGStream } from '../../config';
 import { useEffect, useState } from 'react';
 
 // const SessionNameField = (props) => {
@@ -58,8 +58,12 @@ const OfflinePageIcon = () => {
 
 export default function Controller(props) {
     // const { setSessionName, sessionName } = props
+    const ECG_MIN = 610
+    const ECG_RANGE = 70
     const [Sync, setSync] = useState("-")
+    const [ECG, setECG] = useState(ECG_MIN)
     const [RerenderSync, setRerenderSync] = useState(0)
+
 
     useEffect(() => {
         const socket = new WebSocket(PathGroupSyncDelayStream)
@@ -81,10 +85,33 @@ export default function Controller(props) {
 
     }, [props.dancing])
 
+    useEffect(() => {
+        const socketECG = new WebSocket(PathECGStream)
+
+        socketECG.onopen = () => {
+            setECG(ECG_MIN)
+        }
+
+        socketECG.onmessage = (e) => {
+            setECG(Number(e.data) < ECG_MIN ? ECG_MIN : (Number(e.data) > ECG_MIN + ECG_RANGE ? ECG_MIN + ECG_RANGE : Number(e.data)))
+        }
+
+        return () => {
+            socketECG.close();
+        };
+
+    }, [])
+
+    const ECGpercentage = String((ECG - ECG_MIN) * 100 / ECG_RANGE).split(".")[0] + "%"
+
     return (
         <div className="controller">
-            <div className="ecg-border">
+            <div className="ecg-border" style={{ width: ECGpercentage }}>
 
+            </div>
+            <div className="tool-tip">
+                {/* EMG-Mean Absolute Value:  */}
+                Flex: {ECGpercentage}
             </div>
             <div className="container">
                 {/* <SessionNameField setSessionName={setSessionName} sessionName={sessionName} /> */}

@@ -59,7 +59,7 @@ const Lines = (props) => {
         ))
 
         console.log(danceMove)
-        console.log(String(Date.now() + START_OFFSET_MS) + " - " + danceMove.epochMs + " = " + String(Date.now() + START_OFFSET_MS - danceMove.epochMs + "| -> " + String(buffer.length > 0 ? danceMove.epochMs - buffer[0].epochMs : "")))
+        console.log(String(Date.now() + START_OFFSET_MS) + " - " + danceMove.epochMs + " = " + String(Date.now() + START_OFFSET_MS - danceMove.epochMs + "| -> "))// + String(buffer.length > 0 ? danceMove.epochMs - buffer[0].epochMs : "")))
     }, [danceMove])
 
     useEffect(() => {
@@ -100,6 +100,12 @@ const Line = (props) => {
         if (danceMove.name !== "START" &&
             danceMove.epochMs < start_time + label * TimelineDivisionSeconds * 1000 //- TimelineDivisionSeconds * 1000
             && danceMove.epochMs > dancingStartTime) {
+            isDancing = false
+        }
+
+        // if START is detected twice, don't display dancing in between them
+        if (dancingStartTime < start_time + label * TimelineDivisionSeconds * 1000 &&
+            danceMove.name === "START" && danceMove.epochMs > dancingStartTime) {
             isDancing = false
         }
 

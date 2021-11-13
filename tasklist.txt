@@ -46,3 +46,6 @@ _________________________
 kill %1
 kill $(jobs -p)
 kill -9
+
+python3 /mnt/c/Users/ZhengWen/Documents/Nus\ mods/Y4S1/CG4002/server/scripts/dashboard_tunneling.py
+/mnt/c/Users/ZhengWen/Documents/Nus\ mods/Y4S1/CG4002/server/bin/dashboard_server_linux

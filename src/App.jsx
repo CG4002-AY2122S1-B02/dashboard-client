@@ -15,9 +15,9 @@ function App() {
   const [account, setAccount] = useState({
     "master": "CG4002",
     "loggedIn": true,
-    "user1": "Sanath",
-    "user2": "Michael",
-    "user3": "Josh"
+    "user1": "Ren Hao",
+    "user2": "Jerry",
+    "user3": "Zheng Wen"
   })
 
   const login = (master, password) => {
